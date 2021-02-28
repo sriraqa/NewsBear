@@ -59,14 +59,17 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_API_URL, null, response -> {
-            try {
+            try
+            {
                 JSONObject obj = new JSONObject(response.toString());
-                //JSONArray claimsArray = obj.getJSONArray("claims");
-                TextView test = findViewById(R.id.test);
+                JSONArray claimsArray = obj.getJSONArray("claims");
 
-                test.setText(obj.toString());
+                TextView test = findViewById(R.id.test);
+                test.setText(claimsArray.getJSONObject(0).getString("text"));
+
                // test.setText((CharSequence) claimsArray.getJSONObject(0));
-            } catch (JSONException e) {
+            } catch (JSONException e)
+            {
                 e.printStackTrace();
             }
 //            JSONArray claimArray = null;
