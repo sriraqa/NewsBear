@@ -38,9 +38,9 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     {
         //bind the data
         holder.claimTitle.setText(claims.get(position).getTitle());
-        holder.claimant.setText(claims.get(position).getClaimant());
-        holder.claimDate.setText(claims.get(position).getClaimDate());
-        //holder.textualRating.setText(claims.get(position).getText());
+        holder.website.setText(claims.get(position).getWebsite());
+        holder.ratingDescription.setText(claims.get(position).getRatingDescription());
+        holder.description.setText(claims.get(position).getDescription());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView claimTitle, claimDate, claimant;
+        TextView claimTitle, website, ratingDescription, description;
 //        ImageView articleImage;
 
         public ViewHolder(@NonNull View itemView)
@@ -59,8 +59,9 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             super(itemView);
 
             claimTitle = itemView.findViewById(R.id.claim_title);
-            claimDate = itemView.findViewById(R.id.claim_description);
-            claimant = itemView.findViewById(R.id.claim_url);
+            website = itemView.findViewById(R.id.claim_url);
+            ratingDescription = itemView.findViewById(R.id.textual_rating);
+            description = itemView.findViewById(R.id.claim_description);
             //textualRating = itemView.findViewById(R.id.textual_rating);
 //            articleImage = itemView.findViewById(R.id.claim_image);
         }

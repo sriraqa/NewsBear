@@ -34,6 +34,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     List<Claim> claims;
     ClaimsAdapter adapter;
     RecyclerView claimsRecyclerView;
+    int numOfResults = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,13 +45,12 @@ public class GoogleFactCheckResponse extends AppCompatActivity
         if (getIntent().hasExtra("com.example.newsbear2.SOMETHING")) {
             TextView tv = findViewById(R.id.result_note);
             query = getIntent().getExtras().getString("com.example.newsbear2.SOMETHING");
-            String text = "Search results for " + "\"" + query + "\"";
+            String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
             tv.setText(text);
         }
 
         GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&languageCode=en-US&key=AIzaSyDc63dNSdT88mrDRO4lYr8lQA3WeA7FxhA";
         claims = new ArrayList<>();
-        claimsRecyclerView = findViewById(R.id.claims_recycler_view);
 
         extractClaims();
     }
@@ -58,57 +58,99 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     private void extractClaims()
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_API_URL, null, response -> {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_API_URL, null, response ->
+        {
+            JSONArray claimsArray = null;
+            String title = "No title";
+            String ratingDescription = "No rating";
+            String website = "No url";
+            String description = "No description";
+            String claimant;
+
             try
             {
                 JSONObject obj = new JSONObject(response.toString());
-                JSONArray claimsArray = obj.getJSONArray("claims");
+                claimsArray = obj.getJSONArray("claims");
+                int length = claimsArray.length();
 
-                TextView test = findViewById(R.id.test);
-                test.setText(claimsArray.getJSONObject(0).getString("text"));
+                for (int i = 0; i < length; i++)
+                {
+                    try
+                    {
+                        JSONArray claimReviewArray = claimsArray.getJSONObject(i).getJSONArray("claimReview");
+                        //gets publisher, url, title, reviewDate, textualRating, LanguageCode
 
-               // test.setText((CharSequence) claimsArray.getJSONObject(0));
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
+                        try
+                        {
+                            claimant = claimsArray.getJSONObject(i).getString("claimant");
+                        }
+                        catch(Exception E)
+                        {
+                            claimant = "Anonymous";
+                        }
+                        try
+                        {
+                            title = claimReviewArray.getJSONObject(0).getString("title");
+                        }
+                        catch(Exception E)
+                        {
+                            title = claimsArray.getJSONObject(i).getString("text");
+                        }
+                        ratingDescription = claimReviewArray.getJSONObject(0).getJSONObject("publisher").getString("name")
+                            + " reviewed this article as ";
+                        website = claimReviewArray.getJSONObject(0).getString("url");
+                        description = claimant + " claimed that " + claimsArray.getJSONObject(i).getString("text");
+
+                        //sets colour based on rating
+                        String textualRating = claimReviewArray.getJSONObject(0).getString("textualRating");
+                        if(textualRating.toLowerCase().contains("false") || textualRating.toLowerCase().contains("fake") || textualRating.toLowerCase().contains("fire")
+                            || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading"))
+                        {
+                            textualRating = "<font color='#D0312D'>" + textualRating + "</font>";
+                        }
+                        else if(textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true"))
+                        {
+                            textualRating = "<font color='#74B72E'>" + textualRating + "</font>";
+                        }
+                        else
+                        {
+                            textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
+                        }
+
+                        ratingDescription = ratingDescription + textualRating;
+
+                        Claim claim = new Claim();
+                        claim.setTitle(title);
+                        claim.setRatingDescription(ratingDescription);
+                        claim.setWebsite(website);
+                        claim.setDescription(description);
+
+                        claims.add(claim);
+                    } catch (JSONException E)
+                    {
+
+                        TextView tv = findViewById(R.id.result_note);
+                        tv.setText("No results found " + E);
+                    }
+                }
+                claimsRecyclerView = findViewById(R.id.claims_recycler_view);
+
+                claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                adapter = new ClaimsAdapter(getApplicationContext(), claims);
+                claimsRecyclerView.setAdapter(adapter);
+
+                numOfResults = adapter.getItemCount();
+                TextView tv = findViewById(R.id.result_note);
+                String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
+                tv.setText(text);
             }
-//            JSONArray claimArray = null;
-//            int length = claimArray.length();
-//            TextView test = findViewById(R.id.test);
-            //test.setText(claimObject.toString());
-
-//            test.setText(length);
-            //                for (int i = 0; i < response.length(); i++)
-//                {
-//                    try
-//                    {
-//                        JSONObject claimObject = response.getJSONObject(i);
-//                        TextView test = findViewById(R.id.test);
-//                        test.setText(claimObject.toString());
-
-//                        Claim claim = new Claim();
-//                        claim.setTitle(claimObject.getString("text"));
-//                        claim.setClaimant(claimObject.getString("claimant"));
-//                        claim.setClaimDate(claimObject.getString("claimDate"));
-
-//                        claims.add(claim);
-//                    } catch (JSONException E)
-//                    {
-//                        E.printStackTrace();
-//                    }
-//                }
-
-            claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            adapter = new ClaimsAdapter(getApplicationContext(), claims);
-            claimsRecyclerView.setAdapter(adapter);
+            catch (JSONException e)
+            {
+                TextView tv = findViewById(R.id.result_note);
+                tv.setText("No results found " + e);
+            }
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
 
         queue.add(jsonRequest);
-
-
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, GOOGLE_API_URL,
-//                response -> responseTextView.setText("Response is: " + response), error -> responseTextView.setText("No Search Results!"));
-//
-//        queue.add(stringRequest);
     }
 }

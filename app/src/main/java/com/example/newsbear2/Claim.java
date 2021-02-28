@@ -5,43 +5,53 @@ import java.util.List;
 public class Claim
 {
     private String title;
-    private String claimant;
-    private String claimDate;
+    private String ratingDescription;
+    private String website;
+    private String description;
 //    private String[] reviewsArray;
 
     //ClaimReview claimReview = new ClaimReview();
     public Claim() {}
-    public Claim(String title, String claimant, String claimDate, String[] reviewsArray)
-    {
-        this.title = title;
-        this.claimant = claimant;
-        this.claimDate = claimDate;
+//    public Claim(String title, String claimant, String claimDate, String[] reviewsArray)
+//    {
+//        this.title = title;
+//        this.website = website;
+//        this.ratingDescription = ratingDescription;
+//        this.description = description;
 //        this.reviewsArray = reviewsArray;
-    }
+//    }
 
     public String getTitle()
     {
         return title;
     }
-    public void setTitle(String text)
+    public void setTitle(String title)
     {
         this.title = title;
     }
-    public String getClaimant()
+    public String getWebsite()
     {
-        return claimant;
+        return website;
     }
-    public void setClaimant(String claimant)
+    public void setWebsite(String website)
     {
-        this.claimant = claimant;
+        this.website = website;
     }
-    public String getClaimDate()
+    public String getRatingDescription()
     {
-        return claimDate;
+        return ratingDescription;
     }
-    public void setClaimDate(String claimDate)
+    public void setRatingDescription(String ratingDescription)
     {
-        this.claimDate = claimDate;
+        this.ratingDescription = ratingDescription;
+    }
+    public String getDescription()
+    {
+        return description;
+    }
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 
 //    public String[] getReviewsArray()
