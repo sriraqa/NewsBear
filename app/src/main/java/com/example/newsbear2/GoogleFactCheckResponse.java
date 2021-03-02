@@ -49,7 +49,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
             tv.setText(text);
         }
 
-        GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&languageCode=en-US&key=AIzaSyDc63dNSdT88mrDRO4lYr8lQA3WeA7FxhA";
+        GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
         claims = new ArrayList<>();
 
         extractClaims();
@@ -62,9 +62,9 @@ public class GoogleFactCheckResponse extends AppCompatActivity
         {
             JSONArray claimsArray = null;
             String title = "No title";
-            String ratingDescription = "No rating";
-            String website = "No url";
-            String description = "No description";
+            String ratingDescription;
+            String website;
+            String description;
             String claimant;
 
             try
@@ -80,7 +80,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         JSONArray claimReviewArray = claimsArray.getJSONObject(i).getJSONArray("claimReview");
                         //gets publisher, url, title, reviewDate, textualRating, LanguageCode
 
-                        try
+                        try //in case these values are not inputted in the claim
                         {
                             claimant = claimsArray.getJSONObject(i).getString("claimant");
                         }
@@ -96,13 +96,35 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         {
                             title = claimsArray.getJSONObject(i).getString("text");
                         }
-                        ratingDescription = claimReviewArray.getJSONObject(0).getJSONObject("publisher").getString("name")
-                            + " reviewed this article as ";
-                        website = claimReviewArray.getJSONObject(0).getString("url");
-                        description = claimant + " claimed that " + claimsArray.getJSONObject(i).getString("text");
+                        try
+                        {
+                            ratingDescription = claimReviewArray.getJSONObject(0).getJSONObject("publisher").getString("name")
+                                    + " reviewed this article as ";
+                        }
+                        catch(Exception E)
+                        {
+                            ratingDescription = "Anonymous reviewed this article as ";
+                        }
+                        try
+                        {
+                            website = claimReviewArray.getJSONObject(0).getString("url");
+                        }
+                        catch(Exception E)
+                        {
+                            website = "No url";
+                        }
+                        try
+                        {
+                            description = claimant + " claimed that " + claimsArray.getJSONObject(i).getString("text");
+                        }
+                        catch(Exception E)
+                        {
+                            description = "No description";
+                        }
 
                         //sets colour based on rating
                         String textualRating = claimReviewArray.getJSONObject(0).getString("textualRating");
+
                         if(textualRating.toLowerCase().contains("false") || textualRating.toLowerCase().contains("fake") || textualRating.toLowerCase().contains("fire")
                             || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading"))
                         {

@@ -19,9 +19,13 @@
 
     <TextView
         android:id="@+id/result_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_width="391dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="More Fonts..."
+        android:text="Showing results"
+        android:textAlignment="viewStart"
         app:layout_constraintBottom_toTopOf="@+id/claims_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
