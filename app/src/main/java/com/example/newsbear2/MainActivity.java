@@ -2,6 +2,7 @@ package com.example.newsbear2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -9,25 +10,23 @@ import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static String query = "";
+    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EditText userSearch = findViewById(R.id.userSearch);
-        ImageButton searchButton = findViewById(R.id.searchButton); //use findViewById to find any object by their ID
-        //Creating a variable by type ImageButton
 
-        searchButton.setOnClickListener(v ->
+        new Handler().postDelayed(new Runnable()
         {
-            query = userSearch.getText().toString();
-
-            Intent startIntent = new Intent(getApplicationContext(), GoogleFactCheckResponse.class);
-            startIntent.putExtra("com.example.newsbear2.SOMETHING", query);
-
-            startActivity(startIntent);
-        });
+            @Override
+            public void run()
+            {
+                Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
     }
 }
