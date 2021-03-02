@@ -1,6 +1,7 @@
 package com.example.newsbear2;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         //bind the data
         holder.claimTitle.setText(claims.get(position).getTitle());
         holder.website.setText(claims.get(position).getWebsite());
-        holder.ratingDescription.setText(claims.get(position).getRatingDescription());
+        holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
         holder.description.setText(claims.get(position).getDescription());
+        holder.claimDate.setText(claims.get(position).getClaimDate());
     }
 
     @Override
@@ -51,7 +53,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView claimTitle, website, ratingDescription, description;
+        TextView claimTitle, website, ratingDescription, description, claimDate;
 //        ImageView articleImage;
 
         public ViewHolder(@NonNull View itemView)
@@ -62,6 +64,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             website = itemView.findViewById(R.id.claim_url);
             ratingDescription = itemView.findViewById(R.id.textual_rating);
             description = itemView.findViewById(R.id.claim_description);
+            claimDate = itemView.findViewById(R.id.claim_date);
             //textualRating = itemView.findViewById(R.id.textual_rating);
 //            articleImage = itemView.findViewById(R.id.claim_image);
         }

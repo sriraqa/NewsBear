@@ -2,6 +2,7 @@ package com.example.newsbear2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.os.Handler;
 import android.content.Intent;
 import android.os.Bundle;

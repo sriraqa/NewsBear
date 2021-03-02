@@ -8,6 +8,7 @@ public class Claim
     private String ratingDescription;
     private String website;
     private String description;
+    private String claimDate;
 //    private String[] reviewsArray;
 
     //ClaimReview claimReview = new ClaimReview();
@@ -53,8 +54,16 @@ public class Claim
     {
         this.description = description;
     }
+    public String getClaimDate()
+    {
+        return claimDate;
+    }
 
-//    public String[] getReviewsArray()
+    public void setClaimDate(String claimDate)
+    {
+        this.claimDate = claimDate;
+    }
+    //    public String[] getReviewsArray()
 //    {
 //        return reviewsArray;
 //    }

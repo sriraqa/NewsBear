@@ -1,9 +1,16 @@
 package com.example.newsbear2;
 
+import android.app.ActionBar;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,6 +33,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GoogleFactCheckResponse extends AppCompatActivity
 {
@@ -39,23 +49,27 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Date d = Calendar.getInstance().getTime();
+        SimpleDateFormat curFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String formattedDate = curFormatter.format(d);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_of_claims);
 
         if (getIntent().hasExtra("com.example.newsbear2.SOMETHING")) {
-            TextView tv = findViewById(R.id.result_note);
             query = getIntent().getExtras().getString("com.example.newsbear2.SOMETHING");
-            String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
-            tv.setText(text);
         }
 
         GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
         claims = new ArrayList<>();
 
-        extractClaims();
+        extractClaims(formattedDate);
     }
 
-    private void extractClaims()
+    private void extractClaims(String formattedDate)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_API_URL, null, response ->
@@ -66,6 +80,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
             String website;
             String description;
             String claimant;
+            String claimDate;
 
             try
             {
@@ -115,11 +130,63 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         }
                         try
                         {
-                            description = claimant + " claimed that " + claimsArray.getJSONObject(i).getString("text");
+                            description = "Claim from " + claimant + ": " + claimsArray.getJSONObject(i).getString("text");
                         }
                         catch(Exception E)
                         {
                             description = "No description";
+                        }
+                        try
+                        {
+                            claimDate = claimReviewArray.getJSONObject(0).getString("reviewDate");
+
+                            if(Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4)) == 0)
+                            {
+                                if(Integer.parseInt(formattedDate.substring(5, 7)) - Integer.parseInt(claimDate.substring(5, 7)) == 0)
+                                {
+                                    if(Integer.parseInt(formattedDate.substring(8)) - Integer.parseInt(claimDate.substring(8, 10)) == 0)
+                                    {
+                                        claimDate = "Today";
+                                    }
+                                    else
+                                    {
+                                        if(Integer.parseInt(formattedDate.substring(8)) - Integer.parseInt(claimDate.substring(8, 10)) == 1)
+                                        {
+                                            claimDate = Integer.parseInt(formattedDate.substring(8)) - Integer.parseInt(claimDate.substring(8, 10)) + " day ago";
+                                        }
+                                        else
+                                        {
+                                            claimDate = Integer.parseInt(formattedDate.substring(8)) - Integer.parseInt(claimDate.substring(8, 10)) + " days ago";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if(Integer.parseInt(formattedDate.substring(5, 7)) - Integer.parseInt(claimDate.substring(5, 7)) == 1)
+                                    {
+                                        claimDate = (Integer.parseInt(formattedDate.substring(5, 7)) - Integer.parseInt(claimDate.substring(5, 7))) + " month ago";
+                                    }
+                                    else
+                                    {
+                                        claimDate = (Integer.parseInt(formattedDate.substring(5, 7)) - Integer.parseInt(claimDate.substring(5, 7))) + " months ago";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if(Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4)) == 1)
+                                {
+                                    claimDate = (Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4))) + " year ago";
+                                }
+                                else
+                                {
+                                    claimDate = (Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4))) + " years ago";
+                                }
+                            }
+                        }
+                        catch(Exception E)
+                        {
+                            claimDate = "Unknown date";
                         }
 
                         //sets colour based on rating
@@ -138,6 +205,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         {
                             textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
                         }
+                        if(textualRating.toLowerCase().contains("false") && textualRating.toLowerCase().contains("true"))
+                        {
+                            textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
+                        }
 
                         ratingDescription = ratingDescription + textualRating;
 
@@ -146,13 +217,14 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         claim.setRatingDescription(ratingDescription);
                         claim.setWebsite(website);
                         claim.setDescription(description);
+                        claim.setClaimDate(claimDate);
 
                         claims.add(claim);
                     } catch (JSONException E)
                     {
-
                         TextView tv = findViewById(R.id.result_note);
-                        tv.setText("No results found " + E);
+                        tv.setVisibility(View.VISIBLE);
+                        tv.setText("There are no claims for this topic :( " + "\nError: " + E);
                     }
                 }
                 claimsRecyclerView = findViewById(R.id.claims_recycler_view);
@@ -162,14 +234,14 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                 claimsRecyclerView.setAdapter(adapter);
 
                 numOfResults = adapter.getItemCount();
-                TextView tv = findViewById(R.id.result_note);
                 String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
-                tv.setText(text);
+                setTitle(text);
             }
             catch (JSONException e)
             {
                 TextView tv = findViewById(R.id.result_note);
-                tv.setText("No results found " + e);
+                tv.setVisibility(View.VISIBLE);
+                tv.setText("No results found " + "\nError: " + e);
             }
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
 
