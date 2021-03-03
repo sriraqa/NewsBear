@@ -3,8 +3,12 @@ package com.example.newsbear2;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,7 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends AppCompatActivity
 {
-    public static String query = "";
+    //public static String query = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,9 +29,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         setTitle("NewsBear");
-        getSupportActionBar().setIcon(R.drawable.newsbear_splash_screen_cropped);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -38,20 +39,39 @@ public class HomeActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-        EditText userSearch = findViewById(R.id.userSearch);
-        ImageButton searchButton = findViewById(R.id.searchButton); //use findViewById to find any object by their ID
-        //Creating a variable by type ImageButton
-
-        searchButton.setOnClickListener(v ->
-        {
-            query = userSearch.getText().toString();
-
-            Intent startIntent = new Intent(getApplicationContext(), GoogleFactCheckResponse.class);
-            startIntent.putExtra("com.example.newsbear2.SOMETHING", query);
-
-            startActivity(startIntent);
-        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_item, menu);
+
+        MenuItem search = menu.findItem(R.id.search_view);
+        SearchView searchView = (SearchView) search.getActionView();
+
+        searchView.setQuery("", true);
+        searchView.setQueryHint("Search for topics...");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                Intent searchIntent = new Intent(HomeActivity.this, GoogleFactCheckResponse.class);
+                searchIntent.putExtra("com.example.newsbear2.SOMETHING", query);
+
+                HomeActivity.this.startActivity(searchIntent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }

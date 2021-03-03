@@ -17,8 +17,8 @@ import java.util.List;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder>
 {
-    LayoutInflater inflater;
-    List<Claim> claims;
+    private LayoutInflater inflater;
+    private List<Claim> claims;
 
     public ClaimsAdapter(Context context, List<Claim> claims)
     {
@@ -39,7 +39,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     {
         //bind the data
         holder.claimTitle.setText(claims.get(position).getTitle());
-        holder.website.setText(claims.get(position).getWebsite());
+        //holder.website.setText(claims.get(position).getWebsite());
         holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
         holder.description.setText(claims.get(position).getDescription());
         holder.claimDate.setText(claims.get(position).getClaimDate());
@@ -61,11 +61,10 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             super(itemView);
 
             claimTitle = itemView.findViewById(R.id.claim_title);
-            website = itemView.findViewById(R.id.claim_url);
+            //website = itemView.findViewById(R.id.claim_url);
             ratingDescription = itemView.findViewById(R.id.textual_rating);
             description = itemView.findViewById(R.id.claim_description);
             claimDate = itemView.findViewById(R.id.claim_date);
-            //textualRating = itemView.findViewById(R.id.textual_rating);
 //            articleImage = itemView.findViewById(R.id.claim_image);
         }
     }
