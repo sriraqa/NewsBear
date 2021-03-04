@@ -43,6 +43,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 {
     public static String query = "";
     private static String GOOGLE_API_URL;
+    public static int maxNumOfClaims;
     private List<Claim> claims;
     private ClaimsAdapter adapter;
     private RecyclerView claimsRecyclerView;
@@ -65,9 +66,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
         Intent searchIntent = getIntent();
 
-        if (searchIntent.hasExtra("com.example.newsbear2.SOMETHING"))
+        if (searchIntent.hasExtra("com.example.newsbear2.QUERY"))
         {
-            query = searchIntent.getStringExtra("com.example.newsbear2.SOMETHING");
+            query = searchIntent.getStringExtra("com.example.newsbear2.QUERY");
+            maxNumOfClaims = searchIntent.getIntExtra("com.example.newsbear2.MAX_NUM", 10);
         }
         else
         {
@@ -76,7 +78,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
             tv.setText("Something went wrong :( ");
         }
 
-        GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
+        GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
         claims = new ArrayList<>();
 
         extractClaims(formattedDate);
@@ -103,8 +105,8 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
                 for (int i = 0; i < length; i++)
                 {
-                    try
-                    {
+
+                    try {
                         JSONArray claimReviewArray = claimsArray.getJSONObject(i).getJSONArray("claimReview");
                         //gets publisher, url, title, reviewDate, textualRating, LanguageCode
 
@@ -171,9 +173,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         String textualRating = claimReviewArray.getJSONObject(0).getString("textualRating");
 
                         if (textualRating.toLowerCase().contains("false") || textualRating.toLowerCase().contains("fake") || textualRating.toLowerCase().contains("fire")
-                                || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading")) {
+                                || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading") || textualRating.toLowerCase().contains("not true")
+                                || textualRating.toLowerCase().contains("untrue") || textualRating.toLowerCase().contains("incorrect")) {
                             textualRating = "<font color='#D0312D'>" + textualRating + "</font>";
-                        } else if (textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true")) {
+                        } else if (textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true") || textualRating.toLowerCase().contains("correct")) {
                             textualRating = "<font color='#74B72E'>" + textualRating + "</font>";
                         } else {
                             textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
@@ -207,6 +210,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         tv.setText("There are no claims for this topic :( " + "\nError: " + E);
                     }
                 }
+
                 claimsRecyclerView = findViewById(R.id.claims_recycler_view);
 
                 claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

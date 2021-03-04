@@ -1,6 +1,8 @@
 package com.example.newsbear2;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +11,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
+import com.example.newsbear2.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 public class HomeActivity extends AppCompatActivity
 {
     //public static String query = "";
+    public static int maxNumOfClaims = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,7 +64,8 @@ public class HomeActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String query)
             {
                 Intent searchIntent = new Intent(HomeActivity.this, GoogleFactCheckResponse.class);
-                searchIntent.putExtra("com.example.newsbear2.SOMETHING", query);
+                searchIntent.putExtra("com.example.newsbear2.QUERY", query);
+                searchIntent.putExtra("com.example.newsbear2.MAX_NUM", maxNumOfClaims);
 
                 HomeActivity.this.startActivity(searchIntent);
                 return true;

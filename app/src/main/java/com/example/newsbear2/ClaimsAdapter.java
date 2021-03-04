@@ -53,7 +53,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView claimTitle, website, ratingDescription, description, claimDate;
+        TextView claimTitle, ratingDescription, description, claimDate;
 //        ImageView articleImage;
 
         public ViewHolder(@NonNull View itemView)
