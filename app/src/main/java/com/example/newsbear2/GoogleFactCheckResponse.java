@@ -1,12 +1,9 @@
 package com.example.newsbear2;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,7 +12,6 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,10 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -36,18 +29,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GoogleFactCheckResponse extends AppCompatActivity
 {
     public static String query = "";
-    private static String GOOGLE_API_URL;
+    private static String GOOGLE_FACT_API_URL;
+    private static String GOOGLE_IMAGE_API_URL;
     public static int maxNumOfClaims;
     private List<Claim> claims;
     private ClaimsAdapter adapter;
     private RecyclerView claimsRecyclerView;
     int numOfResults = 0;
+
+    //private static String imageURL = "https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,7 +73,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
             tv.setText("Something went wrong :( ");
         }
 
-        GOOGLE_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
+        GOOGLE_FACT_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
         claims = new ArrayList<>();
 
         extractClaims(formattedDate);
@@ -87,7 +82,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     private void extractClaims(String formattedDate)
     {
         RequestQueue queue = Volley.newRequestQueue(GoogleFactCheckResponse.this);
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_API_URL, null, response ->
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, GOOGLE_FACT_API_URL, null, response ->
         {
             JSONArray claimsArray = null;
             String title = "No title";
@@ -165,6 +160,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                     claimDate = (Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4))) + " years ago";
                                 }
                             }
+                            if(claimDate.contains("-"))
+                            {
+                                claimDate = "Unknown date";
+                            }
                         } catch (Exception E) {
                             claimDate = "Unknown date";
                         }
@@ -193,6 +192,30 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         claim.setWebsite(website);
                         claim.setDescription(description);
                         claim.setClaimDate(claimDate);
+
+                        GOOGLE_IMAGE_API_URL = "https://customsearch.googleapis.com/customsearch/v1?cx=63737510a1d0d86ca&q=" + title + "&searchType=image&key=AIzaSyDc63dNSdT88mrDRO4lYr8lQA3WeA7FxhA";
+
+                        RequestQueue queue2 = Volley.newRequestQueue(GoogleFactCheckResponse.this);
+                        JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, GOOGLE_IMAGE_API_URL, null, response2 ->
+                        {
+                            String imageURL = "https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png";
+                            JSONArray imageArray = null;
+                            try
+                            {
+                                JSONObject obj2 = new JSONObject(response2.toString());
+                                imageArray = obj2.getJSONArray("items");
+                                imageURL = imageArray.getJSONObject(0).getString("link");
+                                Log.i("URL", imageURL);
+                            }
+                            catch(Exception E)
+                            {
+                                Log.e("Image Error", E.toString());
+                            }
+
+                            claim.setImageURL(imageURL);
+                        }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
+                        queue2.add(jsonRequest2);
+                        
 
                         claims.add(claim);
 

@@ -25,7 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 public class HomeActivity extends AppCompatActivity
 {
     //public static String query = "";
-    public static int maxNumOfClaims = 50;
+    public static int maxNumOfClaims = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

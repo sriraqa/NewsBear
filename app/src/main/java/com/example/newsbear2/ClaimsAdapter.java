@@ -43,6 +43,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
         holder.description.setText(claims.get(position).getDescription());
         holder.claimDate.setText(claims.get(position).getClaimDate());
+        Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView claimTitle, ratingDescription, description, claimDate;
-//        ImageView articleImage;
+        ImageView articleImage;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -65,7 +66,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             ratingDescription = itemView.findViewById(R.id.textual_rating);
             description = itemView.findViewById(R.id.claim_description);
             claimDate = itemView.findViewById(R.id.claim_date);
-//            articleImage = itemView.findViewById(R.id.claim_image);
+            articleImage = itemView.findViewById(R.id.claim_image);
         }
     }
 }

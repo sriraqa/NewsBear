@@ -101,7 +101,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="362dp"
-        android:layout_height="380dp"
+        android:layout_height="362dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +111,7 @@
         <ImageView
             android:id="@+id/claim_image"
             android:layout_width="362dp"
-            android:layout_height="330dp"
+            android:layout_height="362dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button

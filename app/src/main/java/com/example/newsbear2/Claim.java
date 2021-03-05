@@ -9,6 +9,7 @@ public class Claim
     private String website;
     private String description;
     private String claimDate;
+    private String imageURL;
 //    private String[] reviewsArray;
 
     //ClaimReview claimReview = new ClaimReview();
@@ -62,6 +63,14 @@ public class Claim
     public void setClaimDate(String claimDate)
     {
         this.claimDate = claimDate;
+    }
+    public String getImageURL()
+    {
+        return imageURL;
+    }
+    public void setImageURL(String imageURL)
+    {
+        this.imageURL = imageURL;
     }
     //    public String[] getReviewsArray()
 //    {
