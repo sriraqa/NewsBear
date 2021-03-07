@@ -218,28 +218,6 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
                         claims.add(claim);
 
-//                        Button fullArticleButton = findViewById(R.id.full_article_button);
-//                        fullArticleButton.setOnClickListener(new OnClickListener()
-//                        {
-//                            public void onClick(View v)
-//                            {
-//                                Intent intent = new Intent();
-//                                intent.setAction(Intent.ACTION_VIEW);
-//                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//                                intent.setData(Uri.parse(claim.getWebsite()));
-//                                startActivity(intent);
-//                            }
-//                        });
-
-//                        fullArticleButton.setOnClickListener(v ->
-//                        {
-//                            Intent webIntent = new Intent(GoogleFactCheckResponse.this, WebViewer.class);
-//                            webIntent.putExtra("com.example.newsbear2.URL", claim.getWebsite());
-//
-//                            GoogleFactCheckResponse.this.startActivity(webIntent);
-//                        });
-
-
                     } catch (JSONException E) {
                         TextView tv = findViewById(R.id.result_note);
                         tv.setVisibility(View.VISIBLE);

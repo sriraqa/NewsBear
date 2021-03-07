@@ -34,8 +34,6 @@
                 android:value="com.example.newsbear2.HomeActivity" />
         </activity>
 
-        <activity android:name=".WebViewer">
-        </activity>
     </application>
 
 </manifest>
