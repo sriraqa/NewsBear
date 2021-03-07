@@ -1,10 +1,14 @@
 package com.example.newsbear2;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +21,13 @@ import java.util.List;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder>
 {
+    private Context context;
     private LayoutInflater inflater;
     private List<Claim> claims;
 
-    public ClaimsAdapter(Context context, List<Claim> claims)
+    public ClaimsAdapter(Context parentContext, List<Claim> claims)
     {
+        context = parentContext;
         this.inflater = LayoutInflater.from(context);
         this.claims = claims;
     }
@@ -44,6 +50,32 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         holder.description.setText(claims.get(position).getDescription());
         holder.claimDate.setText(claims.get(position).getClaimDate());
         Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
+
+        holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(claims.get(position).getWebsite()));
+                context.startActivity(browserIntent);
+            }
+        });
+
+        holder.share.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,  claims.get(position).getRatingDescription().substring(0, claims.get(position).getRatingDescription().indexOf("<"))  +
+                        claims.get(position).getRatingDescription().substring(claims.get(position).getRatingDescription().indexOf(">") + 1,
+                                claims.get(position).getRatingDescription().indexOf("<", claims.get(position).getRatingDescription().indexOf(">"))) +
+                        ":\n" + claims.get(position).getWebsite() + "\n\nFind more fact checked news from \"NewsBear\" on Android!");
+                shareIntent.setType("text/plain");
+                context.startActivity(Intent.createChooser(shareIntent, "Send To"));
+            }
+        });
     }
 
     @Override
@@ -56,8 +88,10 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     {
         TextView claimTitle, ratingDescription, description, claimDate;
         ImageView articleImage;
+        Button fullArticleButton;
+        ImageButton share;
 
-        public ViewHolder(@NonNull View itemView)
+        public ViewHolder(/*@NonNull*/ View itemView)
         {
             super(itemView);
 
@@ -67,6 +101,8 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             description = itemView.findViewById(R.id.claim_description);
             claimDate = itemView.findViewById(R.id.claim_date);
             articleImage = itemView.findViewById(R.id.claim_image);
+            fullArticleButton = itemView.findViewById(R.id.full_article_button);
+            share = itemView.findViewById(R.id.share_button);
         }
     }
 }

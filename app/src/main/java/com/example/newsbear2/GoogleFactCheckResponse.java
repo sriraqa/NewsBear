@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -29,7 +27,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicReference;
+
+import android.net.Uri;
 
 public class GoogleFactCheckResponse extends AppCompatActivity
 {
@@ -173,15 +172,15 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
                         if (textualRating.toLowerCase().contains("false") || textualRating.toLowerCase().contains("fake") || textualRating.toLowerCase().contains("fire")
                                 || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading") || textualRating.toLowerCase().contains("not true")
-                                || textualRating.toLowerCase().contains("untrue") || textualRating.toLowerCase().contains("incorrect")) {
-                            textualRating = "<font color='#D0312D'>" + textualRating + "</font>";
+                                || textualRating.toLowerCase().contains("untrue") || textualRating.toLowerCase().contains("incorrect") || textualRating.toLowerCase().contains("pinocchio")) {
+                            textualRating = "\"<font color='#D0312D'>" + textualRating + "</font>\"";
                         } else if (textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true") || textualRating.toLowerCase().contains("correct")) {
-                            textualRating = "<font color='#74B72E'>" + textualRating + "</font>";
+                            textualRating = "\"<font color='#74B72E'>" + textualRating + "</font>\"";
                         } else {
-                            textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
+                            textualRating = "\"<font color='#151E3D'>" + textualRating + "</font>\"";
                         }
                         if (textualRating.toLowerCase().contains("false") && textualRating.toLowerCase().contains("true")) {
-                            textualRating = "<font color='#151E3D'>" + textualRating + "</font>";
+                            textualRating = "\"<font color='#151E3D'>" + textualRating + "</font>\"";
                         }
 
                         ratingDescription = ratingDescription + textualRating;
@@ -215,11 +214,23 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             claim.setImageURL(imageURL);
                         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
                         queue2.add(jsonRequest2);
-                        
+
 
                         claims.add(claim);
 
-                        Button fullArticleButton = findViewById(R.id.full_article_button);
+//                        Button fullArticleButton = findViewById(R.id.full_article_button);
+//                        fullArticleButton.setOnClickListener(new OnClickListener()
+//                        {
+//                            public void onClick(View v)
+//                            {
+//                                Intent intent = new Intent();
+//                                intent.setAction(Intent.ACTION_VIEW);
+//                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//                                intent.setData(Uri.parse(claim.getWebsite()));
+//                                startActivity(intent);
+//                            }
+//                        });
+
 //                        fullArticleButton.setOnClickListener(v ->
 //                        {
 //                            Intent webIntent = new Intent(GoogleFactCheckResponse.this, WebViewer.class);
@@ -227,6 +238,8 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 //
 //                            GoogleFactCheckResponse.this.startActivity(webIntent);
 //                        });
+
+
                     } catch (JSONException E) {
                         TextView tv = findViewById(R.id.result_note);
                         tv.setVisibility(View.VISIBLE);
@@ -237,7 +250,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                 claimsRecyclerView = findViewById(R.id.claims_recycler_view);
 
                 claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                adapter = new ClaimsAdapter(getApplicationContext(), claims);
+                adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
                 claimsRecyclerView.setAdapter(adapter);
 
                 numOfResults = adapter.getItemCount();
