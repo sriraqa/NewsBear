@@ -10,6 +10,8 @@ public class Claim
     private String description;
     private String claimDate;
     private String imageURL;
+    private float imageWidth;
+    private float imageHeight;
 //    private String[] reviewsArray;
 
     //ClaimReview claimReview = new ClaimReview();
@@ -71,6 +73,22 @@ public class Claim
     public void setImageURL(String imageURL)
     {
         this.imageURL = imageURL;
+    }
+    public float getImageHeight()
+    {
+        return imageHeight;
+    }
+    public void setImageHeight(float imageHeight)
+    {
+        this.imageHeight = imageHeight;
+    }
+    public float getImageWidth()
+    {
+        return imageWidth;
+    }
+    public void setImageWidth(float imageWidth)
+    {
+        this.imageWidth = imageWidth;
     }
     //    public String[] getReviewsArray()
 //    {

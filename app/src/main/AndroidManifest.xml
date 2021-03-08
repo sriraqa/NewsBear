@@ -11,29 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsBear2">
-
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
-        <activity android:name=".GoogleFactCheckResponse"
-            android:parentActivityName="com.example.newsbear2.HomeActivity">
+        <activity
+            android:name=".GoogleFactCheckResponse"
+            android:theme="@style/Theme.NewsBear2"
+            android:parentActivityName="com.example.newsbear2.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.newsbear2.HomeActivity" />
-        </activity>
+                android:value="com.example.newsbear2.SearchActivity" />
 
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

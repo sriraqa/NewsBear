@@ -1,22 +1,31 @@
 package com.example.newsbear2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Constructor;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,8 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import android.net.Uri;
 
 public class GoogleFactCheckResponse extends AppCompatActivity
 {
@@ -108,7 +115,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         {
                             claimant = claimsArray.getJSONObject(i).getString("claimant");
                         } catch (Exception E) {
-                            claimant = "Anonymous";
+                            claimant = "Someone";
                         }
                         try {
                             title = claimReviewArray.getJSONObject(0).getString("title");
@@ -119,7 +126,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             ratingDescription = claimReviewArray.getJSONObject(0).getJSONObject("publisher").getString("name")
                                     + " reviewed this article as ";
                         } catch (Exception E) {
-                            ratingDescription = "Anonymous reviewed this article as ";
+                            ratingDescription = "Someone reviewed this article as ";
                         }
                         try {
                             website = claimReviewArray.getJSONObject(0).getString("url");
@@ -132,7 +139,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             description = "No description";
                         }
                         try {
-                            claimDate = claimReviewArray.getJSONObject(0).getString("reviewDate");
+                            claimDate = claimsArray.getJSONObject(i).getString("claimDate");
 
                             if (Integer.parseInt(formattedDate.substring(0, 4)) - Integer.parseInt(claimDate.substring(0, 4)) == 0) {
                                 if (Integer.parseInt(formattedDate.substring(5, 7)) - Integer.parseInt(claimDate.substring(5, 7)) == 0) {
@@ -161,10 +168,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             }
                             if(claimDate.contains("-"))
                             {
-                                claimDate = "Unknown date";
+                                claimDate = "Date not given";
                             }
                         } catch (Exception E) {
-                            claimDate = "Unknown date";
+                            claimDate = "Date not given";
                         }
 
                         //sets colour based on rating
@@ -195,30 +202,71 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         GOOGLE_IMAGE_API_URL = "https://customsearch.googleapis.com/customsearch/v1?cx=63737510a1d0d86ca&q=" + title + "&searchType=image&key=AIzaSyDc63dNSdT88mrDRO4lYr8lQA3WeA7FxhA";
 
                         RequestQueue queue2 = Volley.newRequestQueue(GoogleFactCheckResponse.this);
+
                         JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, GOOGLE_IMAGE_API_URL, null, response2 ->
                         {
                             String imageURL = "https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png";
+                            int imageWidth; //362 divided by width will give the multiple for dimensions
+                            int imageHeight;
                             JSONArray imageArray = null;
                             try
                             {
                                 JSONObject obj2 = new JSONObject(response2.toString());
                                 imageArray = obj2.getJSONArray("items");
                                 imageURL = imageArray.getJSONObject(0).getString("link");
+                                imageWidth = imageArray.getJSONObject(0).getJSONObject("image").getInt("width");
+                                imageHeight = imageArray.getJSONObject(0).getJSONObject("image").getInt("height");
                                 Log.i("URL", imageURL);
+                                Log.i("height", Integer.toString(imageHeight));
+                                Log.i("width", Integer.toString(imageWidth));
+
+                                float pixels = convertDpToPixel((float) 362.0, this);
+                                double multiple = pixels / imageWidth;
+                                float newImageHeight = (float) (imageHeight * multiple);
+
+                                claim.setImageHeight(newImageHeight);
+                                claim.setImageWidth(pixels);
+
+//                                LinearLayout layout = findViewById(R.id.linearLayout);
+//                                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
+//                                params.height = (int) newImageHeight;
+//                                params.width = (int) pixels;
+//                                layout.setLayoutParams(params);
                             }
                             catch(Exception E)
                             {
                                 Log.e("Image Error", E.toString());
+                                claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
+                                claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
+                                claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
                             }
 
                             claim.setImageURL(imageURL);
-                        }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
+                                claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
+                                claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
+                            }
+                        });
+
                         queue2.add(jsonRequest2);
 
+                        if(((int) claim.getImageWidth()) == 0 || ((int) claim.getImageHeight()) == 0)
+                        {
+                            claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
+                            claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
+                            claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
+                        }
+
+                        Log.i("Width Checkpoint", Integer.toString((int) claim.getImageWidth()));
+                        Log.i("Height Checkpoint", Integer.toString((int) claim.getImageHeight()));
 
                         claims.add(claim);
 
-                    } catch (JSONException E) {
+                    } catch (JSONException E)
+                    {
                         TextView tv = findViewById(R.id.result_note);
                         tv.setVisibility(View.VISIBLE);
                         tv.setText("There are no claims for this topic :( " + "\nError: " + E);
@@ -242,5 +290,10 @@ public class GoogleFactCheckResponse extends AppCompatActivity
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
 
         queue.add(jsonRequest);
+    }
+
+    public static float convertDpToPixel(float dp, Context context)
+    {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
