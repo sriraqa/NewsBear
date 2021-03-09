@@ -51,6 +51,22 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
+        String newsEmoji = "\uD83D\uDCF0";
+        String faceEmoji = "\uD83D\uDE36";
+        String paperEmoji = "\uD83D\uDCDD";
+        String calendarEmoji = "\uD83D\uDCC5";
+
+        if(claims.get(position).getRatingDescription().startsWith("f"))
+        {
+            faceEmoji = "\uD83D\uDE2D ";
+            claims.get(position).setRatingDescription(claims.get(position).getRatingDescription().substring(1));
+        }
+        else if(claims.get(position).getRatingDescription().startsWith("t"))
+        {
+            faceEmoji = "\uD83D\uDE0A ";
+            claims.get(position).setRatingDescription(claims.get(position).getRatingDescription().substring(1));
+        }
+
         //bind the data
         holder.claimTitle.setText(claims.get(position).getTitle());
         //holder.website.setText(claims.get(position).getWebsite());
@@ -59,6 +75,11 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         holder.claimDate.setText(claims.get(position).getClaimDate());
 
         Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
+
+        holder.titleEmoji.setText(newsEmoji);
+        holder.ratingEmoji.setText(faceEmoji);
+        holder.descriptionEmoji.setText(paperEmoji);
+        holder.dateEmoji.setText(calendarEmoji);
 
         holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
         {
@@ -103,7 +124,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView claimTitle, ratingDescription, description, claimDate;
+        TextView claimTitle, ratingDescription, description, claimDate, titleEmoji, ratingEmoji, descriptionEmoji, dateEmoji;
         ImageView articleImage;
         Button fullArticleButton;
         ImageButton share;
@@ -122,6 +143,10 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             fullArticleButton = itemView.findViewById(R.id.full_article_button);
             share = itemView.findViewById(R.id.share_button);
             linearLayout = itemView.findViewById(R.id.linearLayout);
+            titleEmoji = itemView.findViewById(R.id.titleEmoji);
+            ratingEmoji = itemView.findViewById(R.id.ratingEmoji);
+            descriptionEmoji = itemView.findViewById(R.id.descriptionEmoji);
+            dateEmoji = itemView.findViewById(R.id.dateEmoji);
         }
     }
 }

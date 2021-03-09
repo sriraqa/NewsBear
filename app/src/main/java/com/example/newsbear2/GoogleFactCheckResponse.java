@@ -3,6 +3,7 @@ package com.example.newsbear2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -131,7 +132,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         try {
                             website = claimReviewArray.getJSONObject(0).getString("url");
                         } catch (Exception E) {
-                            website = "No url";
+                            website = "google.com";
                         }
                         try {
                             description = "Claim from " + claimant + ": " + claimsArray.getJSONObject(i).getString("text");
@@ -179,14 +180,22 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
                         if (textualRating.toLowerCase().contains("false") || textualRating.toLowerCase().contains("fake") || textualRating.toLowerCase().contains("fire")
                                 || textualRating.toLowerCase().contains("unproven") || textualRating.toLowerCase().contains("misleading") || textualRating.toLowerCase().contains("not true")
-                                || textualRating.toLowerCase().contains("untrue") || textualRating.toLowerCase().contains("incorrect") || textualRating.toLowerCase().contains("pinocchio")) {
+                                || textualRating.toLowerCase().contains("untrue") || textualRating.toLowerCase().contains("incorrect") || textualRating.toLowerCase().contains("pinocchio"))
+                        {
+                            ratingDescription = "f" + ratingDescription;
                             textualRating = "\"<font color='#D0312D'>" + textualRating + "</font>\"";
-                        } else if (textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true") || textualRating.toLowerCase().contains("correct")) {
+                        }
+                        else if (textualRating.toLowerCase().contains("satire") || textualRating.toLowerCase().contains("true") || textualRating.toLowerCase().contains("correct"))
+                        {
+                            ratingDescription = "t" + ratingDescription;
                             textualRating = "\"<font color='#74B72E'>" + textualRating + "</font>\"";
-                        } else {
+                        }
+                        else
+                        {
                             textualRating = "\"<font color='#151E3D'>" + textualRating + "</font>\"";
                         }
-                        if (textualRating.toLowerCase().contains("false") && textualRating.toLowerCase().contains("true")) {
+                        if (textualRating.toLowerCase().contains("false") && textualRating.toLowerCase().contains("true"))
+                        {
                             textualRating = "\"<font color='#151E3D'>" + textualRating + "</font>\"";
                         }
 
@@ -238,7 +247,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 Log.e("Image Error", E.toString());
                                 claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
                                 claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
-                                claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
+                                claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
                             }
 
                             claim.setImageURL(imageURL);
@@ -247,7 +256,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             public void onErrorResponse(VolleyError error) {
                                 claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
                                 claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
-                                claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
+                                claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
                             }
                         });
 
@@ -257,7 +266,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         {
                             claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
                             claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
-                            claim.setImageHeight(convertDpToPixel((float) 288.0, GoogleFactCheckResponse.this));
+                            claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
                         }
 
                         Log.i("Width Checkpoint", Integer.toString((int) claim.getImageWidth()));

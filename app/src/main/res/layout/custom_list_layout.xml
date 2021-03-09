@@ -22,8 +22,9 @@
 
     <TextView
         android:id="@+id/claim_description"
-        android:layout_width="375dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/comfortaa_bold"
         android:text="TextView"
@@ -37,24 +38,25 @@
 
     <TextView
         android:id="@+id/claim_date"
-        android:layout_width="297dp"
+        android:layout_width="280dp"
         android:layout_height="19dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/comfortaa_light"
         android:text="TextView"
         android:textColor="#2E2D2D"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/claim_description"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintVertical_bias="0.096" />
 
     <TextView
         android:id="@+id/textual_rating"
-        android:layout_width="375dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
         android:fontFamily="@font/comfortaa"
         android:text="TextView"
         android:textAlignment="viewStart"
@@ -68,8 +70,9 @@
 
     <TextView
         android:id="@+id/claim_title"
-        android:layout_width="375dp"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa_bold"
         android:text="TextView"
@@ -86,20 +89,19 @@
 
     <ImageButton
         android:id="@+id/share_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Share"
+        android:layout_width="42dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#00FFFFFF"
         android:textAllCaps="false"
-        android:textColor="#272727"
+        android:textColor="#00272727"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintHorizontal_bias="0.759"
         app:layout_constraintStart_toEndOf="@+id/claim_date"
         app:layout_constraintTop_toBottomOf="@+id/claim_description"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.183"
         app:srcCompat="@android:drawable/ic_menu_share" />
 
     <LinearLayout
@@ -145,6 +147,60 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/titleEmoji"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="2dp"
+        android:fontFamily="@font/noto_color_emoji_compat"
+        android:text="txt"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/claim_title"
+        app:layout_constraintEnd_toStartOf="@+id/claim_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/claim_title" />
+
+    <TextView
+        android:id="@+id/descriptionEmoji"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="2dp"
+        android:fontFamily="@font/noto_color_emoji_compat"
+        android:text="txt"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/claim_description"
+        app:layout_constraintEnd_toStartOf="@+id/claim_description"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/claim_description" />
+
+    <TextView
+        android:id="@+id/dateEmoji"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="3dp"
+        android:fontFamily="@font/noto_color_emoji_compat"
+        android:text="txt"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/claim_date"
+        app:layout_constraintEnd_toStartOf="@+id/claim_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/claim_date" />
+
+    <TextView
+        android:id="@+id/ratingEmoji"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:fontFamily="@font/noto_color_emoji_compat"
+        android:text="txt"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textual_rating"
+        app:layout_constraintEnd_toStartOf="@+id/textual_rating"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
