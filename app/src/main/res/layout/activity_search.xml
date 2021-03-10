@@ -23,9 +23,10 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabSelectedTextColor="#FFFFFF"
-            app:tabTextColor="#98A9B1" />
+            android:background="#FFFFFF"
+            android:textAllCaps="false"
+            app:tabSelectedTextColor="@color/darker_main_blue"
+            app:tabTextAppearance="@style/TabTextAppearance"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,13 +34,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trends_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.viewpager.widget.ViewPager>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

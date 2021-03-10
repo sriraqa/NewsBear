@@ -52,6 +52,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         String newsEmoji = "\uD83D\uDCF0";
+        String clipEmoji = "\uD83D\uDCCE";
         String faceEmoji = "\uD83D\uDE36";
         String paperEmoji = "\uD83D\uDCDD";
         String calendarEmoji = "\uD83D\uDCC5";
@@ -76,10 +77,12 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
         Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
 
-        holder.titleEmoji.setText(newsEmoji);
+        holder.titleEmoji.setText(clipEmoji);
         holder.ratingEmoji.setText(faceEmoji);
         holder.descriptionEmoji.setText(paperEmoji);
         holder.dateEmoji.setText(calendarEmoji);
+
+        holder.fullArticleButton.setText(newsEmoji + " Read the full article");
 
         holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
         {

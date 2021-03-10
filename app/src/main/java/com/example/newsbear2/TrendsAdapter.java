@@ -23,13 +23,13 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 {
     private Context context;
     private LayoutInflater inflater;
-    private List<Claim> claims;
+    private List<Trend> trends;
 
-    public TrendsAdapter(Context parentContext, List<Claim> claims)
+    public TrendsAdapter(Context parentContext, List<Trend> trends)
     {
         context = parentContext;
         this.inflater = LayoutInflater.from(context);
-        this.claims = claims;
+        this.trends = trends;
     }
 
     @NonNull
@@ -43,11 +43,33 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull TrendsAdapter.ViewHolder holder, int position)
     {
-        holder.claimTitle.setText(claims.get(position).getTitle());
+        String newsEmoji = "\uD83D\uDCF0";
+        String clipEmoji = "\uD83D\uDCCE";
+        String faceEmoji = "\uD83D\uDE36";
+        String calendarEmoji = "\uD83D\uDCC5";
+
+        if(trends.get(position).getRatingDescription().startsWith("f"))
+        {
+            faceEmoji = "\uD83D\uDE2D ";
+            trends.get(position).setRatingDescription(trends.get(position).getRatingDescription().substring(1));
+        }
+        else if(trends.get(position).getRatingDescription().startsWith("t"))
+        {
+            faceEmoji = "\uD83D\uDE0A ";
+            trends.get(position).setRatingDescription(trends.get(position).getRatingDescription().substring(1));
+        }
+
+        holder.claimTitle.setText(trends.get(position).getTitle());
         //holder.website.setText(claims.get(position).getWebsite());
-        holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
-        holder.claimDate.setText(claims.get(position).getClaimDate());
-        Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
+        holder.ratingDescription.setText(Html.fromHtml(trends.get(position).getRatingDescription()));
+        holder.claimDate.setText(trends.get(position).getClaimDate());
+        Picasso.get().load(trends.get(position).getImageURL()).into(holder.articleImage);
+
+        holder.titleEmoji.setText(clipEmoji);
+        holder.ratingEmoji.setText(faceEmoji);
+        holder.dateEmoji.setText(calendarEmoji);
+
+        holder.fullArticleButton.setText(newsEmoji + " Read the full article");
 
         holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
         {
@@ -55,7 +77,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             public void onClick(View v)
             {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(claims.get(position).getWebsite()));
+                browserIntent.setData(Uri.parse(trends.get(position).getWebsite()));
                 context.startActivity(browserIntent);
             }
         });
@@ -66,10 +88,10 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             public void onClick(View v)
             {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT,  claims.get(position).getRatingDescription().substring(0, claims.get(position).getRatingDescription().indexOf("<"))  +
-                        claims.get(position).getRatingDescription().substring(claims.get(position).getRatingDescription().indexOf(">") + 1,
-                                claims.get(position).getRatingDescription().indexOf("<", claims.get(position).getRatingDescription().indexOf(">"))) +
-                        ":\n" + claims.get(position).getWebsite() + "\n\nI found this fact checked article by using \"NewsBear\" on Android!");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,  trends.get(position).getRatingDescription().substring(0, trends.get(position).getRatingDescription().indexOf("<"))  +
+                        trends.get(position).getRatingDescription().substring(trends.get(position).getRatingDescription().indexOf(">") + 1,
+                                trends.get(position).getRatingDescription().indexOf("<", trends.get(position).getRatingDescription().indexOf(">"))) +
+                        ":\n" + trends.get(position).getWebsite() + "\n\nI found this fact checked article by using \"NewsBear\" on Android!");
                 shareIntent.setType("text/plain");
                 context.startActivity(Intent.createChooser(shareIntent, "Send To"));
             }
@@ -84,7 +106,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView claimTitle, ratingDescription, claimDate;
+        TextView claimTitle, ratingDescription, claimDate, dateEmoji, ratingEmoji, titleEmoji, trendName;
         ImageView articleImage;
         Button fullArticleButton;
         ImageButton share;
@@ -100,6 +122,10 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             articleImage = itemView.findViewById(R.id.image_view);
             fullArticleButton = itemView.findViewById(R.id.button);
             share = itemView.findViewById(R.id.share_image_button);
+            titleEmoji = itemView.findViewById(R.id.compactTitleEmoji);
+            ratingEmoji = itemView.findViewById(R.id.compactReviewEmoji);
+            dateEmoji = itemView.findViewById(R.id.compactDateEmoji);
+            trendName = itemView.findViewById(R.id.trendName);
         }
     }
 }

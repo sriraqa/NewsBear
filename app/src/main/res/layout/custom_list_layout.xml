@@ -38,10 +38,10 @@
 
     <TextView
         android:id="@+id/claim_date"
-        android:layout_width="280dp"
+        android:layout_width="270dp"
         android:layout_height="19dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="30dp"
         android:fontFamily="@font/comfortaa_light"
         android:text="TextView"
         android:textColor="#2E2D2D"
@@ -89,20 +89,20 @@
 
     <ImageButton
         android:id="@+id/share_button"
-        android:layout_width="42dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="57dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="#00FFFFFF"
-        android:textAllCaps="false"
-        android:textColor="#00272727"
-        android:textSize="10sp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.759"
         app:layout_constraintStart_toEndOf="@+id/claim_date"
         app:layout_constraintTop_toBottomOf="@+id/claim_description"
         app:layout_constraintVertical_bias="0.183"
-        app:srcCompat="@android:drawable/ic_menu_share" />
+        app:srcCompat="@drawable/emoji_u1f4ac" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -139,6 +139,7 @@
                 android:textColor="#FFFFFF"
                 android:textColorHighlight="@color/main_blue"
                 android:textColorLink="@color/main_blue"
+                android:textSize="18sp"
                 app:cornerRadius="0dp"
                 app:iconTint="#FFFFFF"
                 app:rippleColor="@color/main_blue" />
