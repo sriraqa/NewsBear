@@ -18,6 +18,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.emoji.text.EmojiCompat;
 import androidx.emoji.text.FontRequestEmojiCompatConfig;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -32,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.newsbear2.ui.main.SectionsPagerAdapter;
 
@@ -70,8 +73,6 @@ public class SearchActivity extends AppCompatActivity
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-
         for(int i = 0; i < tabs.getTabCount(); i++)
         {
             TabLayout.Tab tab = tabs.getTabAt(i);
@@ -93,20 +94,22 @@ public class SearchActivity extends AppCompatActivity
 
         setTitle("NewsBear");
 
+        //listens for chenges in the activity
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
           {
               //invoked when a new page is selected
               @Override
               public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
               {
-                  viewPager.getCurrentItem();
+                  Fragment fragment = sectionsPagerAdapter.getItem(position);
               }
 
               //invoked when the current page is scrolled
               @Override
               public void onPageSelected(int position)
               {
-                  viewPager.getCurrentItem();
+                  Toast.makeText(SearchActivity.this, "Selected Page Position: " + position, Toast.LENGTH_SHORT). show();
+                  Fragment fragment = sectionsPagerAdapter.getItem(position);
               }
 
               //invoked then scroll state changes (SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING)
@@ -116,15 +119,6 @@ public class SearchActivity extends AppCompatActivity
 
               }
           });
-
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         SearchView searchView = findViewById(R.id.search_view);
 

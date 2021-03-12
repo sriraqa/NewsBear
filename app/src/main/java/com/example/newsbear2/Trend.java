@@ -90,22 +90,4 @@ public class Trend
     {
         this.imageWidth = imageWidth;
     }
-    //    public String[] getReviewsArray()
-//    {
-//        return reviewsArray;
-//    }
-
-//    public void setReviewsList(List<ClaimReview> reviewsList)
-//    {
-//        this.reviewsArray = reviewsArray;
-//    }
-
-//    public String getUrl()
-//    {
-//        return claimReview.getUrl();
-//    }
-//    public String getTextualRating()
-//    {
-//        return claimReview.getTextualRating();
-//    }
 }

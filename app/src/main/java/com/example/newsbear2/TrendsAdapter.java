@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -24,9 +27,15 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
     private Context context;
     private LayoutInflater inflater;
     private List<Trend> trends;
+    private String newsEmoji = "\uD83D\uDCF0";
+    private String clipEmoji = "\uD83D\uDCCE";
+    private String faceEmoji = "\uD83D\uDE36";
+    private String calendarEmoji = "\uD83D\uDCC5";
+
 
     public TrendsAdapter(Context parentContext, List<Trend> trends)
     {
+        Log.i("Checkpoint", "trends adapter checkpoint"); //did not check
         context = parentContext;
         this.inflater = LayoutInflater.from(context);
         this.trends = trends;
@@ -34,19 +43,22 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 
     @NonNull
     @Override
-    public TrendsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = inflater.inflate(R.layout.custom_trend_layout, parent, false);
-        return new TrendsAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TrendsAdapter.ViewHolder holder, int position)
     {
-        String newsEmoji = "\uD83D\uDCF0";
-        String clipEmoji = "\uD83D\uDCCE";
-        String faceEmoji = "\uD83D\uDE36";
-        String calendarEmoji = "\uD83D\uDCC5";
+        LinearLayout layout = holder.linearLayout;
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
+        params.height = (int) trends.get(position).getImageHeight();
+        params.width = (int) trends.get(position).getImageWidth();
+        Log.i("converted height", Float.toString(trends.get(position).getImageHeight()));
+        Log.i("converted width", Float.toString(trends.get(position).getImageWidth()));
+        layout.setLayoutParams(params);
 
         if(trends.get(position).getRatingDescription().startsWith("f"))
         {
@@ -59,6 +71,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             trends.get(position).setRatingDescription(trends.get(position).getRatingDescription().substring(1));
         }
 
+        holder.trendName.setText(trends.get(position).getTrendString());
         holder.claimTitle.setText(trends.get(position).getTitle());
         //holder.website.setText(claims.get(position).getWebsite());
         holder.ratingDescription.setText(Html.fromHtml(trends.get(position).getRatingDescription()));
@@ -101,7 +114,16 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
     @Override
     public int getItemCount()
     {
-        return 0;
+        int count;
+        if(trends != null && !trends.isEmpty())
+        {
+            count= trends.size();
+        }
+        else
+        {
+            count = 0;
+        }
+        return count;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -110,6 +132,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
         ImageView articleImage;
         Button fullArticleButton;
         ImageButton share;
+        LinearLayout linearLayout;
 
         public ViewHolder(/*@NonNull*/ View itemView)
         {
@@ -126,6 +149,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             ratingEmoji = itemView.findViewById(R.id.compactReviewEmoji);
             dateEmoji = itemView.findViewById(R.id.compactDateEmoji);
             trendName = itemView.findViewById(R.id.trendName);
+            linearLayout = itemView.findViewById(R.id.linearLayout2);
         }
     }
 }

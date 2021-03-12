@@ -16,7 +16,6 @@ import com.example.newsbear2.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter
 {
-
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
@@ -34,9 +33,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
         switch (position)
         {
             case 0: // Fragment # 0 - This will show Fragment1
-                return Fragment1.newInstance(0, "Page # 1");
+                return Fragment1.newInstance();
             case 1: // Fragment # 1 - This will show Fragment2
-                return Fragment2.newInstance(1, "Page # 2");
+                return Fragment2.newInstance();
             default:
                 return null;
         }

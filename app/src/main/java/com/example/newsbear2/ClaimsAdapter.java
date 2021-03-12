@@ -32,6 +32,11 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     private Context context;
     private LayoutInflater inflater;
     private List<Claim> claims;
+    private String newsEmoji = "\uD83D\uDCF0";
+    private String clipEmoji = "\uD83D\uDCCE";
+    private String faceEmoji = "\uD83D\uDE36";
+    private String paperEmoji = "\uD83D\uDCDD";
+    private String calendarEmoji = "\uD83D\uDCC5";
 
     public ClaimsAdapter(Context parentContext, List<Claim> claims)
     {
@@ -51,11 +56,13 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        String newsEmoji = "\uD83D\uDCF0";
-        String clipEmoji = "\uD83D\uDCCE";
-        String faceEmoji = "\uD83D\uDE36";
-        String paperEmoji = "\uD83D\uDCDD";
-        String calendarEmoji = "\uD83D\uDCC5";
+        LinearLayout layout = holder.linearLayout;
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
+        params.height = (int) claims.get(position).getImageHeight();
+        params.width = (int) claims.get(position).getImageWidth();
+        Log.i("converted height", Float.toString(claims.get(position).getImageHeight()));
+        Log.i("converted width", Float.toString(claims.get(position).getImageWidth()));
+        layout.setLayoutParams(params);
 
         if(claims.get(position).getRatingDescription().startsWith("f"))
         {
@@ -109,14 +116,6 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
                 context.startActivity(Intent.createChooser(shareIntent, "Send To"));
             }
         });
-
-        LinearLayout layout = holder.linearLayout;
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
-        params.height = (int) claims.get(position).getImageHeight();
-        params.width = (int) claims.get(position).getImageWidth();
-        Log.i("converted height", Float.toString(claims.get(position).getImageHeight()));
-        Log.i("converted width", Float.toString(claims.get(position).getImageWidth()));
-        layout.setLayoutParams(params);
     }
 
     @Override

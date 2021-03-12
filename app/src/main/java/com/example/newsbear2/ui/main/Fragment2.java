@@ -46,16 +46,10 @@ public class Fragment2 extends Fragment
     private RecyclerView trendsRecyclerView;
     private TrendsAdapter adapter;
     private PagerAdapter pagerAdapter;
-    private String title;
-    private int page;
 
-    public static Fragment2 newInstance(int page, String title)
+    public static Fragment2 newInstance()
     {
         Fragment2 fragment2 = new Fragment2();
-        Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
-        fragment2.setArguments(args);
         return fragment2;
     }
 
@@ -63,15 +57,13 @@ public class Fragment2 extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Inflate the layout for the fragment
-        View view = inflater.inflate(R.layout.fragment_search_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_2, container, false);
         Date d = Calendar.getInstance().getTime();
         SimpleDateFormat curFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String formattedDate = curFormatter.format(d);
@@ -94,7 +86,7 @@ public class Fragment2 extends Fragment
 
                 for(int i = 0; i < max; i++)
                 {
-                    String trendString = trendsArray.getString(i);
+                    String trendString = trendsArray.getJSONObject(count).getString("name");
 
                     googleFactCheckApiUrl = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + trendString + "&pageSize=" + maxNumOfClaims + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
                     RequestQueue queue2 = Volley.newRequestQueue(getActivity());

@@ -35,26 +35,32 @@
         app:layout_constraintStart_toEndOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/trendName" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="265dp"
         android:layout_marginBottom="32dp"
-        app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trendName">
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            tools:layout_editor_absoluteX="266dp"
-            tools:layout_editor_absoluteY="48dp"
-            tools:srcCompat="@tools:sample/avatars" />
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="30dp">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="266dp"
+                tools:layout_editor_absoluteY="48dp"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/date_text_view"
@@ -76,9 +82,9 @@
         android:id="@+id/review_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="59dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginEnd="176dp"
         android:fontFamily="@font/comfortaa"
         android:text="TextView"
         android:textSize="12sp"
