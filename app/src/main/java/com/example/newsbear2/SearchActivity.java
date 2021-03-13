@@ -54,12 +54,14 @@ public class SearchActivity extends AppCompatActivity
 
         SearchView searchView = findViewById(R.id.search_view);
 
+
+
         searchView.setQuery("", true);
         searchView.setQueryHint("Search for a controversial topic");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
-            Intent languageIntent = getIntent();
+            final Intent languageIntent = getIntent();
             @Override
             public boolean onQueryTextSubmit(String query)
             {

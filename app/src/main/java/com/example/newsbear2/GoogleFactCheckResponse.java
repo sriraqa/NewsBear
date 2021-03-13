@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Constructor;
 import java.util.Calendar;
@@ -77,7 +78,8 @@ public class GoogleFactCheckResponse extends AppCompatActivity
         {
             TextView tv = findViewById(R.id.result_note);
             tv.setVisibility(View.VISIBLE);
-            tv.setText("Something went wrong :( ");
+            String errorText = "Something went wrong :( ";
+            tv.setText(errorText);
         }
 
         GOOGLE_FACT_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&key=" + getResources().getString(R.string.google_key);
@@ -125,9 +127,9 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         }
                         try {
                             ratingDescription = claimReviewArray.getJSONObject(0).getJSONObject("publisher").getString("name")
-                                    + " reviewed this article as ";
+                                    + " reviewed this claim as ";
                         } catch (Exception E) {
-                            ratingDescription = "Someone reviewed this article as ";
+                            ratingDescription = "Someone reviewed this claim as ";
                         }
                         try {
                             website = claimReviewArray.getJSONObject(0).getString("url");
@@ -135,7 +137,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                             website = "google.com";
                         }
                         try {
-                            description = "Claim from " + claimant + ": " + claimsArray.getJSONObject(i).getString("text");
+                            description = "Claim from " + claimant + ": \"" + claimsArray.getJSONObject(i).getString("text") + "\"";
                         } catch (Exception E) {
                             description = "No description";
                         }
@@ -227,13 +229,25 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 imageHeight = imageArray.getJSONObject(0).getJSONObject("image").getInt("height");
                                 Log.i("URL", imageURL);
 
-                                float pixels = convertDpToPixel((float) 362.0, this);
+                                float pixels = convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this);
                                 double multiple = pixels / imageWidth;
                                 float newImageHeight = (float) (imageHeight * multiple);
 
                                 claim.setImageHeight(newImageHeight);
                                 claim.setImageWidth(pixels);
                                 claim.setImageURL(imageURL);
+
+                                claims.add(claim);
+
+                                claimsRecyclerView = findViewById(R.id.claims_recycler_view);
+
+                                claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
+                                claimsRecyclerView.setAdapter(adapter);
+
+                                numOfResults = adapter.getItemCount();
+                                String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
+                                setTitle(text);
                             }
                             catch(Exception E)
                             {
@@ -241,13 +255,41 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
                                 claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
                                 claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
+
+                                claims.add(claim);
+
+                                claimsRecyclerView = findViewById(R.id.claims_recycler_view);
+
+                                claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
+                                claimsRecyclerView.setAdapter(adapter);
+
+                                String text = "Showing no results for " + "\"" + query + "\"";
+                                setTitle(text);
                             }
                         }, new Response.ErrorListener() {
                             @Override
-                            public void onErrorResponse(VolleyError error) {
+                            public void onErrorResponse(VolleyError error)
+                            {
+                                Log.e("Image Error", error.toString());
                                 claim.setImageURL("https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png");
                                 claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
                                 claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
+
+                                //Limit of 100 API calls for the images per day
+                                Toast.makeText(GoogleFactCheckResponse.this, "Temporary image 403 error", Toast.LENGTH_SHORT);
+
+                                claims.add(claim);
+
+                                claimsRecyclerView = findViewById(R.id.claims_recycler_view);
+
+                                claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
+                                claimsRecyclerView.setAdapter(adapter);
+
+                                numOfResults = adapter.getItemCount();
+                                String text = "Showing no results for " + "\"" + query + "\"";
+                                setTitle(text);
                             }
                         });
 
@@ -263,29 +305,20 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                         Log.i("Width Checkpoint", Integer.toString((int) claim.getImageWidth()));
                         Log.i("Height Checkpoint", Integer.toString((int) claim.getImageHeight()));
 
-                        claims.add(claim);
-
                     } catch (JSONException E)
                     {
                         TextView tv = findViewById(R.id.result_note);
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText("There are no claims for this topic :( " + "\nError: " + E);
+                        String errorText = "There are no claims for this topic :(";
+                        tv.setText(errorText);
                     }
                 }
 
-                claimsRecyclerView = findViewById(R.id.claims_recycler_view);
-
-                claimsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
-                claimsRecyclerView.setAdapter(adapter);
-
-                numOfResults = adapter.getItemCount();
-                String text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
-                setTitle(text);
             } catch (JSONException e) {
                 TextView tv = findViewById(R.id.result_note);
                 tv.setVisibility(View.VISIBLE);
-                tv.setText("No results found " + "\nError: " + e);
+                String errorText = "There are no claims for this topic :(";
+                tv.setText(errorText);
             }
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
 

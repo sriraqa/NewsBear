@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/featuresTextView"
-        android:layout_width="353dp"
-        android:layout_height="61dp"
+        android:layout_width="321dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa"
         android:text="Our app provides a simple and easy way for young adults to search for reliable news."
@@ -58,7 +58,7 @@
     <Button
         android:id="@+id/getStartedButton"
         android:layout_width="330dp"
-        android:layout_height="63dp"
+        android:layout_height="50dp"
         android:layout_marginStart="59dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="59dp"
@@ -67,7 +67,7 @@
         android:fontFamily="@font/comfortaa_bold"
         android:text="Get searching!"
         android:textColor="@color/darker_main_blue"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView11"
         app:layout_constraintEnd_toEndOf="parent"

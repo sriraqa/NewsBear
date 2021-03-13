@@ -29,9 +29,9 @@ import java.util.List;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder>
 {
-    private Context context;
-    private LayoutInflater inflater;
-    private List<Claim> claims;
+    private final Context context;
+    private final LayoutInflater inflater;
+    private final List<Claim> claims;
     private String newsEmoji = "\uD83D\uDCF0";
     private String clipEmoji = "\uD83D\uDCCE";
     private String faceEmoji = "\uD83D\uDE36";
@@ -65,6 +65,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         layout.setLayoutParams(params);
 
         String imageURL = claims.get(position).getImageURL();
+        Log.i("CHECK", imageURL);
         Picasso.get().load(imageURL).into(holder.articleImage);
 
         if(claims.get(position).getRatingDescription().startsWith("f"))
