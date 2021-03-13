@@ -89,11 +89,11 @@
 
     <ImageButton
         android:id="@+id/share_button"
-        android:layout_width="57dp"
-        android:layout_height="48dp"
+        android:layout_width="67dp"
+        android:layout_height="53dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"

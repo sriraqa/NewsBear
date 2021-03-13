@@ -64,6 +64,9 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         Log.i("converted width", Float.toString(claims.get(position).getImageWidth()));
         layout.setLayoutParams(params);
 
+        String imageURL = claims.get(position).getImageURL();
+        Picasso.get().load(imageURL).into(holder.articleImage);
+
         if(claims.get(position).getRatingDescription().startsWith("f"))
         {
             faceEmoji = "\uD83D\uDE2D ";
@@ -81,8 +84,6 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
         holder.description.setText(claims.get(position).getDescription());
         holder.claimDate.setText(claims.get(position).getClaimDate());
-
-        Picasso.get().load(claims.get(position).getImageURL()).into(holder.articleImage);
 
         holder.titleEmoji.setText(clipEmoji);
         holder.ratingEmoji.setText(faceEmoji);

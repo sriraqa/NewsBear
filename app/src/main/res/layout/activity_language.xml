@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lighter_main_blue">
+
+    <Button
+        android:id="@+id/englishButton"
+        android:layout_width="338dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="English only"
+        android:textAllCaps="false"
+        android:textColor="@color/darker_main_blue"
+        android:textSize="18sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/frenchButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/frenchButton"
+        android:layout_width="338dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="French"
+        android:textAllCaps="false"
+        android:textColor="@color/darker_main_blue"
+        android:textSize="18sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/spanishButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/englishButton" />
+
+    <Button
+        android:id="@+id/spanishButton"
+        android:layout_width="338dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="300dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Spanish"
+        android:textAllCaps="false"
+        android:textColor="@color/darker_main_blue"
+        android:textSize="18sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frenchButton" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="366dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="13dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Choose additional languages"
+        android:textAlignment="center"
+        android:textColor="@color/darker_main_blue"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="251dp"
+        android:layout_height="252dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/englishButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:srcCompat="@drawable/language_screen" />
+</androidx.constraintlayout.widget.ConstraintLayout>

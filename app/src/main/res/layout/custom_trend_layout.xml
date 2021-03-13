@@ -32,7 +32,7 @@
         android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/trendName" />
 
     <LinearLayout
@@ -49,7 +49,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="30dp">
+            app:cardCornerRadius="500dp">
 
             <ImageView
                 android:id="@+id/image_view"
@@ -76,10 +76,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <TextView
-        android:id="@+id/review_text_view"
+        android:id="@+id/author_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
@@ -90,7 +90,7 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/title_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/trendName" />
 
     <Button
@@ -107,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/trendName" />
 
     <ImageButton
@@ -123,20 +123,20 @@
         app:layout_constraintBottom_toTopOf="@+id/title_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/review_text_view"
+        app:layout_constraintStart_toEndOf="@+id/author_text_view"
         app:layout_constraintTop_toBottomOf="@+id/trendName"
         app:srcCompat="@drawable/emoji_u1f4ac" />
 
     <TextView
-        android:id="@+id/compactReviewEmoji"
+        android:id="@+id/compactAuthorEmoji"
         android:layout_width="30dp"
         android:layout_height="24dp"
         android:layout_marginEnd="2dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/review_text_view"
-        app:layout_constraintEnd_toStartOf="@+id/review_text_view"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toTopOf="@+id/review_text_view" />
+        app:layout_constraintBottom_toBottomOf="@+id/author_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/author_text_view"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="@+id/author_text_view" />
 
     <TextView
         android:id="@+id/compactTitleEmoji"
@@ -147,7 +147,7 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/title_text_view"
         app:layout_constraintEnd_toStartOf="@+id/title_text_view"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="@+id/title_text_view" />
 
     <TextView
@@ -160,7 +160,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/date_text_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <TextView
         android:id="@+id/trendName"
@@ -171,7 +171,7 @@
         android:layout_marginEnd="90dp"
         android:layout_marginBottom="17dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />

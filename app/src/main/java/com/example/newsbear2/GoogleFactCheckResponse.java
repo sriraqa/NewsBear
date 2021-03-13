@@ -80,7 +80,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
             tv.setText("Something went wrong :( ");
         }
 
-        GOOGLE_FACT_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&languageCode=en-US&key=" + getResources().getString(R.string.google_key);
+        GOOGLE_FACT_API_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search?&query=" + query + "&pageSize=" + maxNumOfClaims + "&key=" + getResources().getString(R.string.google_key);
         claims = new ArrayList<>();
 
         extractClaims(formattedDate);
@@ -226,8 +226,6 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 imageWidth = imageArray.getJSONObject(0).getJSONObject("image").getInt("width");
                                 imageHeight = imageArray.getJSONObject(0).getJSONObject("image").getInt("height");
                                 Log.i("URL", imageURL);
-                                Log.i("height", Integer.toString(imageHeight));
-                                Log.i("width", Integer.toString(imageWidth));
 
                                 float pixels = convertDpToPixel((float) 362.0, this);
                                 double multiple = pixels / imageWidth;
@@ -235,12 +233,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
 
                                 claim.setImageHeight(newImageHeight);
                                 claim.setImageWidth(pixels);
-
-//                                LinearLayout layout = findViewById(R.id.linearLayout);
-//                                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
-//                                params.height = (int) newImageHeight;
-//                                params.width = (int) pixels;
-//                                layout.setLayoutParams(params);
+                                claim.setImageURL(imageURL);
                             }
                             catch(Exception E)
                             {
@@ -249,8 +242,6 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 claim.setImageWidth(convertDpToPixel((float) 362.0, GoogleFactCheckResponse.this));
                                 claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
                             }
-
-                            claim.setImageURL(imageURL);
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {

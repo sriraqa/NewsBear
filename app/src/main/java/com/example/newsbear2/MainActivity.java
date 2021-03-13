@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity
         setTitle("NewsBear");
 
         new Handler().postDelayed(() -> {
-            Intent homeIntent = new Intent(MainActivity.this, SearchActivity.class);
+            Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
             startActivity(homeIntent);
             finish();
         }, SPLASH_TIME_OUT);

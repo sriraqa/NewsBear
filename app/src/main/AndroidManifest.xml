@@ -38,6 +38,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_welcome"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".LanguageActivity"
+            android:label="@string/title_language"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

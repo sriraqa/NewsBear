@@ -16,8 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.emoji.text.EmojiCompat;
-import androidx.emoji.text.FontRequestEmojiCompatConfig;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -127,9 +125,15 @@ public class SearchActivity extends AppCompatActivity
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
+            Intent languageIntent = getIntent();
             @Override
             public boolean onQueryTextSubmit(String query)
             {
+                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE"))
+                {
+                    query += languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE");
+                }
+
                 Intent searchIntent = new Intent(SearchActivity.this, GoogleFactCheckResponse.class);
                 searchIntent.putExtra("com.example.newsbear2.QUERY", query);
                 searchIntent.putExtra("com.example.newsbear2.MAX_NUM", maxNumOfClaims);

@@ -140,13 +140,13 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 
             claimTitle = itemView.findViewById(R.id.title_text_view);
             //website = itemView.findViewById(R.id.claim_url);
-            ratingDescription = itemView.findViewById(R.id.review_text_view);
+            ratingDescription = itemView.findViewById(R.id.author_text_view);
             claimDate = itemView.findViewById(R.id.date_text_view);
             articleImage = itemView.findViewById(R.id.image_view);
             fullArticleButton = itemView.findViewById(R.id.button);
             share = itemView.findViewById(R.id.share_image_button);
             titleEmoji = itemView.findViewById(R.id.compactTitleEmoji);
-            ratingEmoji = itemView.findViewById(R.id.compactReviewEmoji);
+            ratingEmoji = itemView.findViewById(R.id.compactAuthorEmoji);
             dateEmoji = itemView.findViewById(R.id.compactDateEmoji);
             trendName = itemView.findViewById(R.id.trendName);
             linearLayout = itemView.findViewById(R.id.linearLayout2);
