@@ -2,6 +2,11 @@
     <string name="app_name">NewsBear2</string>
     <string name="title_activity_home">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_welcome">WelcomeActivity</string>
+    <string name="title_language">LanguageActivity</string>
+    <string name="title_get_started">GetStartedActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="search_hint">Search for controversial topics or people</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

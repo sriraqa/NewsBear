@@ -136,7 +136,7 @@
                 android:fontFamily="@font/comfortaa_bold"
                 android:text="Read the full article"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/darker_main_blue"
                 android:textColorHighlight="@color/main_blue"
                 android:textColorLink="@color/main_blue"
                 android:textSize="18sp"

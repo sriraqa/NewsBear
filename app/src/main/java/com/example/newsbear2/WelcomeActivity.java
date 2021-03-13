@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +16,7 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         setTitle("Welcome");
 
-        String bearEmoji = "\uD83D\uDC3B ";
-
-        String buttonString = bearEmoji + " Get started!";
-
-        Button continueButton = findViewById(R.id.getStartedButton);
-
-        continueButton.setText(buttonString);
+        Button continueButton = findViewById(R.id.continueButton);
 
         continueButton.setOnClickListener(new View.OnClickListener()
         {
@@ -32,6 +25,20 @@ public class WelcomeActivity extends AppCompatActivity
             {
                 Intent welcomeIntent = new Intent(WelcomeActivity.this, LanguageActivity.class);
                 startActivity(welcomeIntent);
+            }
+        });
+
+        Button skipButton = findViewById(R.id.skipButton);
+
+        skipButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent getStartedIntent = new Intent(WelcomeActivity.this, SearchActivity.class);
+                String language = "&languageCode=en-US";
+                getStartedIntent.putExtra("com.example.newsbear2.LANGUAGE2", language);
+                startActivity(getStartedIntent);
             }
         });
     }

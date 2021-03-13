@@ -25,7 +25,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, SearchActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=en-US");
                 startActivity(welcomeIntent);
             }
@@ -35,7 +35,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, SearchActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=fr-FR");
                 startActivity(welcomeIntent);
             }
@@ -45,7 +45,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, SearchActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=es");
                 startActivity(welcomeIntent);
             }

@@ -50,6 +50,12 @@
             android:label="@string/title_language"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".GetStartedActivity"
+            android:label="@string/title_get_started"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
