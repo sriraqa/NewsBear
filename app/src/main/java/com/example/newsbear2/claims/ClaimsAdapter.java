@@ -1,9 +1,7 @@
-package com.example.newsbear2;
+package com.example.newsbear2.claims;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
@@ -17,14 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newsbear2.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder>
@@ -91,7 +87,8 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         holder.descriptionEmoji.setText(paperEmoji);
         holder.dateEmoji.setText(calendarEmoji);
 
-        holder.fullArticleButton.setText(newsEmoji + " Read the full article");
+        String fullArticleText = newsEmoji + " Read the full article";
+        holder.fullArticleButton.setText(fullArticleText);
 
         holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
         {

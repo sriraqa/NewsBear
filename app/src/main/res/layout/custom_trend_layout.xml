@@ -125,7 +125,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/author_text_view"
         app:layout_constraintTop_toBottomOf="@+id/trendName"
-        app:srcCompat="@drawable/emoji_u1f4ac" />
+        app:srcCompat="@drawable/share_emoji" />
 
     <TextView
         android:id="@+id/compactAuthorEmoji"

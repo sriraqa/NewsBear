@@ -91,7 +91,7 @@
         app:layout_constraintStart_toEndOf="@+id/claim_date"
         app:layout_constraintTop_toBottomOf="@+id/claim_description"
         app:layout_constraintVertical_bias="0.183"
-        app:srcCompat="@drawable/emoji_u1f4ac" />
+        app:srcCompat="@drawable/share_emoji" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

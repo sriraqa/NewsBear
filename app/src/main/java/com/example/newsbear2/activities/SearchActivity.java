@@ -1,20 +1,34 @@
-package com.example.newsbear2;
+package com.example.newsbear2.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.speech.RecognizerIntent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.newsbear2.R;
+
+import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity
 {
+    ImageView speechButton;
+    SearchView searchView;
     private ViewPager viewPager;
 
     //public static String query = "";
     public static int maxNumOfClaims = 2;
+    private static final int RECOGNIZER_RESULT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,12 +66,34 @@ public class SearchActivity extends AppCompatActivity
             questionTextView.setText(text);
         }
 
-        SearchView searchView = findViewById(R.id.search_view);
+        speechButton = findViewById(R.id.speech_button);
+        searchView = findViewById(R.id.search_view);
 
+        speechButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                try
+                {
+                    Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    //informs recognizer which model to refer (free form)
+                    speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+                    speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech to text search");
 
+                    //RECOGNIZER_RESULT will be used to confirm later on
+                    startActivityForResult(speechIntent, RECOGNIZER_RESULT);
+                }
+                catch(ActivityNotFoundException e)
+                {
+                    Toast.makeText(SearchActivity.this, "Your device does not support speech to text.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
 
         searchView.setQuery("", true);
-        searchView.setQueryHint("Search for a controversial topic");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
@@ -84,5 +120,16 @@ public class SearchActivity extends AppCompatActivity
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RECOGNIZER_RESULT && resultCode == RESULT_OK && data != null)
+        {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            searchView.setQuery(matches.get(0), true);
+        }
     }
 }

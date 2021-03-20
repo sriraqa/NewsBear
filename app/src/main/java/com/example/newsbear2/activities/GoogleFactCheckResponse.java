@@ -1,26 +1,19 @@
-package com.example.newsbear2;
+package com.example.newsbear2.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Constructor;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.newsbear2.R;
+import com.example.newsbear2.claims.Claim;
+import com.example.newsbear2.claims.ClaimsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -277,7 +273,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                 claim.setImageHeight(convertDpToPixel((float) 286.0, GoogleFactCheckResponse.this));
 
                                 //Limit of 100 API calls for the images per day
-                                Toast.makeText(GoogleFactCheckResponse.this, "Temporary image 403 error", Toast.LENGTH_SHORT);
+                                Toast.makeText(GoogleFactCheckResponse.this, "Temporary image 403 error", Toast.LENGTH_SHORT).show();
 
                                 claims.add(claim);
 

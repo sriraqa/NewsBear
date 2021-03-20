@@ -1,13 +1,12 @@
-package com.example.newsbear2;
+package com.example.newsbear2.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.os.Handler;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.ImageButton;
+
+import com.example.newsbear2.R;
 
 public class MainActivity extends AppCompatActivity
 {

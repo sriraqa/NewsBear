@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighter_main_blue"
-    tools:context=".SearchActivity">
+    tools:context=".activities.SearchActivity">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button6"
@@ -59,9 +59,22 @@
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintStart_toEndOf="@+id/button4" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@android:drawable/dialog_holo_dark_frame"
+        android:text="Button"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        tools:layout_editor_absoluteX="27dp" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="360dp"
+        android:layout_width="372dp"
         android:layout_height="49dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="450dp"
@@ -72,15 +85,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/questionTextView">
 
-        <SearchView
-            android:id="@+id/search_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/search_hint"
-            android:title="Search"
-            app:actionViewClass="android.widget.SearchView"
-            app:showAsAction="ifRoom" />
+            android:orientation="horizontal">
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:iconifiedByDefault="false"
+                android:queryHint="@string/search_hint"
+                android:title="Search"
+                app:actionViewClass="android.widget.SearchView"
+                app:showAsAction="ifRoom">
+
+            </SearchView>
+
+            <ImageView
+                android:id="@+id/speech_button"
+                android:layout_width="15dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -111,19 +141,6 @@
         app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:background="@android:drawable/dialog_holo_dark_frame"
-        android:text="Button"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        tools:layout_editor_absoluteX="27dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button3"

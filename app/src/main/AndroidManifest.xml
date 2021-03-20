@@ -12,26 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsBear2">
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
 
         </activity>
 
         <activity
-            android:name=".GoogleFactCheckResponse"
+            android:name=".activities.GoogleFactCheckResponse"
             android:theme="@style/Theme.NewsBear2"
-            android:parentActivityName="com.example.newsbear2.SearchActivity">
+            android:parentActivityName="com.example.newsbear2.activities.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.newsbear2.SearchActivity" />
+                android:value="com.example.newsbear2.activities.SearchActivity" />
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,19 +40,19 @@
         </activity>
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".activities.WelcomeActivity"
             android:label="@string/title_welcome"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>
 
         <activity
-            android:name=".LanguageActivity"
+            android:name=".activities.LanguageActivity"
             android:label="@string/title_language"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>
 
         <activity
-            android:name=".GetStartedActivity"
+            android:name=".activities.GetStartedActivity"
             android:label="@string/title_get_started"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>

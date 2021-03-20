@@ -1,4 +1,4 @@
-package com.example.newsbear2;
+package com.example.newsbear2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.newsbear2.R;
 
 public class GetStartedActivity extends AppCompatActivity
 {

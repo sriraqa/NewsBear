@@ -1,4 +1,4 @@
-package com.example.newsbear2;
+package com.example.newsbear2.claims;
 
 import java.util.List;
 
