@@ -17,26 +17,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.newsbear2.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.example.newsbear2.Trend;
+import com.textrazor.AnalysisException;
+import com.textrazor.NetworkException;
+import com.textrazor.TextRazor;
+import com.textrazor.annotations.Entity;
+import com.textrazor.annotations.AnalyzedText;
+import com.textrazor.annotations.Topic;
 
 public class SearchActivity extends AppCompatActivity
 {
@@ -48,6 +52,8 @@ public class SearchActivity extends AppCompatActivity
     public static int maxNumOfClaims = 5;
     private static final int RECOGNIZER_RESULT = 1;
     private final String TEXT_RAZOR_URL = "https://api.textrazor.com";
+
+    private List<Trend> trends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,6 +90,7 @@ public class SearchActivity extends AppCompatActivity
             text += "What's a mainstream topic that's been on your mind?";
             questionTextView.setText(text);
         }
+
         String articleHeadline = "Spain's stricken Bankia expects to sell off its vast portfolio of " +
                 "industrial holdings that includes a stake in the parent company of British Airways and Iberia.";
 
@@ -136,95 +143,52 @@ public class SearchActivity extends AppCompatActivity
         // -d "extractors=entities,topics" -d "text=Spain's stricken Bankia expects to sell off its vast portfolio of industrial
         //holdings that includes a stake in the parent company of British Airways and Iberia." https://api.textrazor.com
 
-        RequestQueue queue = Volley.newRequestQueue(SearchActivity.this);
-        JSONObject postData = new JSONObject();
+        trends = new ArrayList<>();
 
-        try
-        {
-            postData.put("extractors=entities,topics", "");
-            postData.put("text=" + articleHeadline, "");
-            Log.i("CHECKPOINT", "data check");
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        //final String requestBody = jsonBody.toString();
-
-        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, TEXT_RAZOR_URL, postData, new Response.Listener<JSONObject>()
-        {
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONObject response)
+            public void run()
             {
-                Log.i("CHECKPOINT", "check");
+                try
+                {
+                    TextRazor client = new TextRazor(getResources().getString(R.string.text_razor_key));
 
-                TextView tv = findViewById(R.id.textView3);
-                String tvText = response.toString();
-                tv.setText(tvText);
+                    client.addExtractor("topics");
+                    client.addExtractor("entities");
 
-//                JSONArray topics = null;
-//                JSONArray entities = null;
-//                try
-//                {
-//                    JSONObject obj = new JSONObject(response.toString());
-//
-//                    topics = obj.getJSONObject("response").getJSONArray("topics");
-//                    entities = obj.getJSONObject("response").getJSONArray("entities");
-//
-//                    String tvText = topics.getJSONObject(0).getString("label") + " " +
-//                            entities.getJSONObject(0).getString("entityId");
-//
-//                    TextView tv = findViewById(R.id.textView3);
-//                    tv.setText(tvText);
-//
-//                } catch (JSONException e)
-//                {
-//                    e.printStackTrace();
-//                }
+                    AnalyzedText response = null;
+
+                    try
+                    {
+                        response = client.analyze("LONDON - Barclays misled shareholders and the public RBS about one of the biggest investments in the bank's history, a BBC Panorama investigation has found.");
+
+                        String tvText = "";
+
+                        for(Entity entity : response.getResponse().getEntities())
+                        {
+                            tvText += entity.getEntityId();
+                        }
+
+                        for(Topic topic : response.getResponse().getTopics())
+                        {
+                            tvText += topic.getLabel();
+                        }
+
+                        Log.i("response", tvText);
+//                        TextView tv = findViewById(R.id.textView3);
+//                        tv.setText(tvText);
+                    } catch (NetworkException | AnalysisException e)
+                    {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                // error
-                Log.e("Error", "textrazor Volley error");
-            }
-        })
-        {
-//            @Override
-//            public byte[] getBody()
-//            {
-//                try {
-//                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-//                } catch (UnsupportedEncodingException uee) {
-//                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-//                    return null;
-//                }
-//            }
+        });
 
-            //this is the part that adds the data for the post request
-//            @Override
-//            protected Map<String,String> getParams()
-//            {
-//                Map<String,String> params = new HashMap<String, String>();
-//                params.put("extractors", "entities,topics");
-//                params.put("text", articleHeadline);
-//
-//                return params;
-//            }
-            //this is the part that adds the header to the request
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Log.i("CHECKPOINT", "header check");
-                Map<String, String> headers = new HashMap<>();
-                headers.put("x-textrazor-key", getResources().getString(R.string.text_razor_key));
-                return headers;
-            }
-        };
-
-        queue.add(postRequest);
+        thread.start();
 
         speechButton = findViewById(R.id.speech_button);
         searchView = findViewById(R.id.search_view);

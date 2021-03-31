@@ -5,13 +5,6 @@ import java.util.List;
 public class Trend
 {
     private String title;
-    private String ratingDescription;
-    private String website;
-    private String trendString;
-    private String claimDate;
-    private String imageURL;
-    private float imageWidth;
-    private float imageHeight;
 //    private String[] reviewsArray;
 
     //ClaimReview claimReview = new ClaimReview();
@@ -32,62 +25,5 @@ public class Trend
     public void setTitle(String title)
     {
         this.title = title;
-    }
-    public String getWebsite()
-    {
-        return website;
-    }
-    public void setWebsite(String website)
-    {
-        this.website = website;
-    }
-    public String getRatingDescription()
-    {
-        return ratingDescription;
-    }
-    public void setRatingDescription(String ratingDescription)
-    {
-        this.ratingDescription = ratingDescription;
-    }
-    public String getTrendString()
-    {
-        return trendString;
-    }
-    public void setTrendString(String trendString)
-    {
-        this.trendString = trendString;
-    }
-    public String getClaimDate()
-    {
-        return claimDate;
-    }
-
-    public void setClaimDate(String claimDate)
-    {
-        this.claimDate = claimDate;
-    }
-    public String getImageURL()
-    {
-        return imageURL;
-    }
-    public void setImageURL(String imageURL)
-    {
-        this.imageURL = imageURL;
-    }
-    public float getImageHeight()
-    {
-        return imageHeight;
-    }
-    public void setImageHeight(float imageHeight)
-    {
-        this.imageHeight = imageHeight;
-    }
-    public float getImageWidth()
-    {
-        return imageWidth;
-    }
-    public void setImageWidth(float imageWidth)
-    {
-        this.imageWidth = imageWidth;
     }
 }
