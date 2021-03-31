@@ -35,6 +35,7 @@ public class GetStartedActivity extends AppCompatActivity
 
         Intent languageIntent = getIntent();
 
+        //listens for click on get started button and passes the language
         getStartedButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
