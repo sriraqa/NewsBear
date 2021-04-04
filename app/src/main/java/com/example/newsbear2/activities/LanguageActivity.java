@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,11 @@ public class LanguageActivity extends AppCompatActivity
         setContentView(R.layout.activity_language);
         setTitle("Language");
 
+        String subtitle = "FInd articles in other languages!";
+
+        TextView tv = findViewById(R.id.textView6);
+        tv.setText(subtitle);
+
         Button englishButton = findViewById(R.id.englishButton);
         Button frenchButton = findViewById(R.id.frenchButton);
         Button spanishButton = findViewById(R.id.spanishButton);
@@ -27,7 +33,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, WelcomeActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=en-US");
                 startActivity(welcomeIntent);
             }
@@ -37,7 +43,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, WelcomeActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=fr-FR");
                 startActivity(welcomeIntent);
             }
@@ -47,7 +53,7 @@ public class LanguageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent welcomeIntent = new Intent(LanguageActivity.this, GetStartedActivity.class);
+                Intent welcomeIntent = new Intent(LanguageActivity.this, WelcomeActivity.class);
                 welcomeIntent.putExtra("com.example.newsbear2.LANGUAGE", "&languageCode=es");
                 startActivity(welcomeIntent);
             }

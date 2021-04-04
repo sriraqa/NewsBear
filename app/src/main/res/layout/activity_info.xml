@@ -9,17 +9,16 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="298dp"
-        android:layout_height="288dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="70dp"
+        android:layout_width="213dp"
+        android:layout_height="217dp"
+        android:layout_marginBottom="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.255"
-        app:srcCompat="@drawable/welcome_screen_image" />
+        app:srcCompat="@drawable/language_screen" />
 
     <TextView
         android:id="@+id/textView"
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/comfortaa_bold"
-        android:text="Welcome to NewsBear!"
+        android:text="What is the importance?"
         android:textColor="@color/darker_main_blue"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -39,27 +38,24 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="315dp"
+        android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa"
-        android:text="There can be hundreds of pieces of gossip that one person can encounter in a day. Often times, it is almost impossible to do a deep fact check on every single fact that you hear. Newsbear seeks to simplify this process by providing a simple search engine for fact checking news."
-        android:textAlignment="center"
+        android:text="According to Statistics Canada, 96% of Canadians who used the Internet to find information saw COVID-19 information that they suspected was misleading, false or inaccurate. Newsbear solves this problem by providing an easy-to-use fact checking tool."
+        android:textAlignment="viewStart"
         android:textColor="@color/darker_main_blue"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/continueButton2"
+        app:layout_constraintBottom_toTopOf="@+id/continueButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
-        android:id="@+id/continueButton2"
+        android:id="@+id/continueButton"
         android:layout_width="330dp"
         android:layout_height="50dp"
-        android:layout_marginStart="59dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="59dp"
         android:background="@drawable/custom_button_shape"
         android:fontFamily="@font/comfortaa_bold"
         android:text="Continue"
@@ -68,24 +64,9 @@
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="303dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/comfortaa_bold"
-        android:text="Fact check the news you read!"
-        android:textAlignment="center"
-        android:textColor="@color/darker_main_blue"
-        android:textSize="16sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -95,24 +76,10 @@
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/continueButton2"
-        app:layout_constraintVertical_bias="0.833"
-        app:srcCompat="@drawable/page1" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="313dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@color/darker_main_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="This app provides a simple way for young adults to fact check and easily find news." />
+        app:layout_constraintTop_toBottomOf="@+id/continueButton"
+        app:layout_constraintVertical_bias="0.888"
+        app:srcCompat="@drawable/page2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

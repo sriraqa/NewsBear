@@ -6,7 +6,7 @@
     <string name="title_language">LanguageActivity</string>
     <string name="title_get_started">GetStartedActivity</string>
     <string name="title_activity_search">SearchActivity</string>
-    <string name="search_hint">Search for topics or people</string>
+    <string name="search_hint">Search for keywords</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 </resources>

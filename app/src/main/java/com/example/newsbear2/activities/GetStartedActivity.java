@@ -42,11 +42,11 @@ public class GetStartedActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent getStartedIntent = new Intent(GetStartedActivity.this, SearchActivity.class);
-                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE"))
-                {
-                    String language = languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE");
-                    getStartedIntent.putExtra("com.example.newsbear2.LANGUAGE2", language);
-                }
+//                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE2"))
+//                {
+//                    String language = languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE2");
+//                    getStartedIntent.putExtra("com.example.newsbear2.LANGUAGE3", language);
+//                }
                 startActivity(getStartedIntent);
             }
         });

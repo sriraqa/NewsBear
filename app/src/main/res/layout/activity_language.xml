@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:background="@color/lighter_main_blue">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/darker_main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="FInd articles in other languages!" />
+
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="166dp"

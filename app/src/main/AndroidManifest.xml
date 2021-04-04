@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".activities.LanguageActivity"
+            android:name=".activities.InfoActivity"
             android:label="@string/title_language"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>
@@ -54,6 +54,12 @@
         <activity
             android:name=".activities.GetStartedActivity"
             android:label="@string/title_get_started"
+            android:theme="@style/Theme.NewsBear2.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".activities.LanguageActivity"
+            android:label="@string/title_language"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>
     </application>

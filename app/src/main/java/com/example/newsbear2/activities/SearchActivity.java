@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,25 +18,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.newsbear2.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.example.newsbear2.Trend;
+import com.example.newsbear2.TrendsAdapter;
 import com.textrazor.AnalysisException;
 import com.textrazor.NetworkException;
 import com.textrazor.TextRazor;
@@ -54,6 +44,8 @@ public class SearchActivity extends AppCompatActivity
     private final String TEXT_RAZOR_URL = "https://api.textrazor.com";
 
     private List<Trend> trends;
+    private TrendsAdapter adapter;
+    private RecyclerView trendsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -167,14 +159,35 @@ public class SearchActivity extends AppCompatActivity
                         for(Entity entity : response.getResponse().getEntities())
                         {
                             tvText += entity.getEntityId();
+                            Trend trend = new Trend();
+                            trend.setTitle(entity.getEntityId());
+                            trends.add(trend);
                         }
+
+                        trendsRecyclerView = findViewById(R.id.trends_recycler_view);
+
+                        trendsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new TrendsAdapter(SearchActivity.this, trends);
+                        trendsRecyclerView.setAdapter(adapter);
+
+                        trends.clear();
 
                         for(Topic topic : response.getResponse().getTopics())
                         {
                             tvText += topic.getLabel();
+                            Trend trend = new Trend();
+                            trend.setTitle(topic.getLabel());
+                            trends.add(trend);
                         }
 
+                        trendsRecyclerView = findViewById(R.id.trends_recycler_view2);
+
+                        trendsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new TrendsAdapter(SearchActivity.this, trends);
+                        trendsRecyclerView.setAdapter(adapter);
+
                         Log.i("response", tvText);
+
 //                        TextView tv = findViewById(R.id.textView3);
 //                        tv.setText(tvText);
                     } catch (NetworkException | AnalysisException e)
@@ -225,9 +238,17 @@ public class SearchActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE2"))
+                while(query.contains("&"))
                 {
-                    query += languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE2");
+                    query = query.substring(0, query.indexOf("&")) + " " + query.substring(query.indexOf("&") + 1);
+                }
+                while(query.contains("#"))
+                {
+                    query = query.substring(0, query.indexOf("#")) + " " + query.substring(query.indexOf("#") + 1);
+                }
+                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE3"))
+                {
+                    query += languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE3");
                 }
 
                 Intent searchIntent = new Intent(SearchActivity.this, GoogleFactCheckResponse.class);
