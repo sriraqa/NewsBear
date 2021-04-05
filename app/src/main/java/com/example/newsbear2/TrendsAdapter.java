@@ -38,7 +38,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 
     public TrendsAdapter(Context parentContext, List<Trend> trends)
     {
-        Log.i("Checkpoint", "trends adapter checkpoint"); //did not check
+        Log.i("Checkpoint", "trends adapter checkpoint");
         context = parentContext;
         this.inflater = LayoutInflater.from(context);
         this.trends = trends;

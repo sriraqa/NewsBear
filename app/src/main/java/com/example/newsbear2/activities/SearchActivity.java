@@ -28,9 +28,7 @@ import com.example.newsbear2.TrendsAdapter;
 import com.textrazor.AnalysisException;
 import com.textrazor.NetworkException;
 import com.textrazor.TextRazor;
-import com.textrazor.annotations.Entity;
 import com.textrazor.annotations.AnalyzedText;
-import com.textrazor.annotations.Topic;
 
 public class SearchActivity extends AppCompatActivity
 {
@@ -43,9 +41,9 @@ public class SearchActivity extends AppCompatActivity
     private static final int RECOGNIZER_RESULT = 1;
     private final String TEXT_RAZOR_URL = "https://api.textrazor.com";
 
-    private List<Trend> trends;
+    private List<Trend> trendsEntities;
     private TrendsAdapter adapter;
-    private RecyclerView trendsRecyclerView;
+    private RecyclerView trendsRecyclerView1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,28 +56,28 @@ public class SearchActivity extends AppCompatActivity
         setTitle("NewsBear");
 
         int random = (int) (Math.random() * 4);
-        String text = "\uD83D\uDCAD ";
+        String text;
 
         TextView questionTextView = findViewById(R.id.questionTextView);
 
         if(random == 0)
         {
-            text += "What controversial event is going on right now?";
+            text = "What controversial event is going on right now?";
             questionTextView.setText(text);
         }
         else if(random == 1)
         {
-            text += "Which celebrity are people talking about recently?";
+            text = "Which celebrity have you heard about recently?";
             questionTextView.setText(text);
         }
         else if(random == 3)
         {
-            text += "What's a general topic that you're interested in learning about?";
+            text = "What's a general topic that you're interested in?";
             questionTextView.setText(text);
         }
         else
         {
-            text += "What's a mainstream topic that's been on your mind?";
+            text = "What mainstream topic has been on your mind?";
             questionTextView.setText(text);
         }
 
@@ -135,7 +133,7 @@ public class SearchActivity extends AppCompatActivity
         // -d "extractors=entities,topics" -d "text=Spain's stricken Bankia expects to sell off its vast portfolio of industrial
         //holdings that includes a stake in the parent company of British Airways and Iberia." https://api.textrazor.com
 
-        trends = new ArrayList<>();
+        trendsEntities = new ArrayList<>();
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -152,41 +150,36 @@ public class SearchActivity extends AppCompatActivity
 
                     try
                     {
-                        response = client.analyze("LONDON - Barclays misled shareholders and the public RBS about one of the biggest investments in the bank's history, a BBC Panorama investigation has found.");
+                        response = client.analyze("LONDON what is the time Canada space BBC hip hop ballet");
 
                         String tvText = "";
 
-                        for(Entity entity : response.getResponse().getEntities())
+                        try
                         {
-                            tvText += entity.getEntityId();
-                            Trend trend = new Trend();
-                            trend.setTitle(entity.getEntityId());
-                            trends.add(trend);
+                            for(int i = 0; i < 20; i++)
+                            {
+                                Trend trend = new Trend();
+                                trend.setTitle(response.getResponse().getEntities().get(i).getEntityId());
+                                trendsEntities.add(trend);
+
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        trendsRecyclerView1 = findViewById(R.id.trends_recycler_view);
+
+                                        trendsRecyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                                        adapter = new TrendsAdapter(SearchActivity.this, trendsEntities);
+                                        trendsRecyclerView1.setAdapter(adapter);
+                                    }
+                                });
+                            }
                         }
-
-                        trendsRecyclerView = findViewById(R.id.trends_recycler_view);
-
-                        trendsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                        adapter = new TrendsAdapter(SearchActivity.this, trends);
-                        trendsRecyclerView.setAdapter(adapter);
-
-                        trends.clear();
-
-                        for(Topic topic : response.getResponse().getTopics())
+                        catch(IndexOutOfBoundsException | NullPointerException e)
                         {
-                            tvText += topic.getLabel();
-                            Trend trend = new Trend();
-                            trend.setTitle(topic.getLabel());
-                            trends.add(trend);
+                            Log.i("index out of bounds", "List emptied");
                         }
-
-                        trendsRecyclerView = findViewById(R.id.trends_recycler_view2);
-
-                        trendsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                        adapter = new TrendsAdapter(SearchActivity.this, trends);
-                        trendsRecyclerView.setAdapter(adapter);
-
-                        Log.i("response", tvText);
 
 //                        TextView tv = findViewById(R.id.textView3);
 //                        tv.setText(tvText);

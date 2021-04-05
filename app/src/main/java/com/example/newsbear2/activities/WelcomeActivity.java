@@ -22,7 +22,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         String description = "There can be hundreds of pieces of gossip that one person can encounter in a day. " +
                 "With that said, it is almost impossible to do a deep fact check on every single fact that you hear. " +
-                "\nSo, NewsBear seeks to simplify this process by providing a simple search engine for fact checking news.";
+                "So, NewsBear seeks to simplify this process by providing a simple search engine for fact checking news.";
 
         String subtitle = "This app provides a simple way for young adults to fact check and easily find news!";
 

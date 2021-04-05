@@ -2,11 +2,18 @@ package com.example.newsbear2.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.newsbear2.R;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -19,10 +26,30 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setTitle("NewsBear");
 
-        new Handler().postDelayed(() -> {
-            Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
-            startActivity(homeIntent);
+        new Handler().postDelayed(() ->
+        {
+            //only displays the welcome the first time user opens the app
+            if(readString(this, "startedWelcome") == null)
+            {
+                writeString(this, "startedWelcome", "true");
+                Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
+                startActivity(homeIntent);
+            }
+            else
+            {
+                Intent homeIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(homeIntent);
+            }
             finish();
         }, SPLASH_TIME_OUT);
+    }
+    public static void writeString(Context context, final String KEY, String property) {
+        SharedPreferences.Editor editor = context.getSharedPreferences("Start Welcome", context.MODE_PRIVATE).edit();
+        editor.putString(KEY, property);
+        editor.apply();
+    }
+
+    public static String readString(Context context, final String KEY) {
+        return context.getSharedPreferences("Start Welcome", context.MODE_PRIVATE).getString(KEY, null);
     }
 }
