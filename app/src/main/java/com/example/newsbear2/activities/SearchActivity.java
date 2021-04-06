@@ -18,17 +18,35 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.newsbear2.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.newsbear2.Trend;
 import com.example.newsbear2.TrendsAdapter;
+import com.kwabenaberko.newsapilib.NewsApiClient;
+import com.kwabenaberko.newsapilib.models.request.TopHeadlinesRequest;
+import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 import com.textrazor.AnalysisException;
 import com.textrazor.NetworkException;
 import com.textrazor.TextRazor;
 import com.textrazor.annotations.AnalyzedText;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SearchActivity extends AppCompatActivity
 {
@@ -44,14 +62,15 @@ public class SearchActivity extends AppCompatActivity
     private List<Trend> trendsEntities;
     private TrendsAdapter adapter;
     private RecyclerView trendsRecyclerView1;
+    private String trendingHeadlines;
+
+    private int check = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        String id = "id=1";
 
         setTitle("NewsBear");
 
@@ -81,120 +100,112 @@ public class SearchActivity extends AppCompatActivity
             questionTextView.setText(text);
         }
 
-        String articleHeadline = "Spain's stricken Bankia expects to sell off its vast portfolio of " +
-                "industrial holdings that includes a stake in the parent company of British Airways and Iberia.";
+        try
+        {
+            //check so that only calls News API if Activity process is stopped
+            savedInstanceState.getInt("check");
+            Log.i("CHECK", "skipped first time");
+        }
+        catch(Exception e)
+        {
+            NewsApiClient newsApiClient = new NewsApiClient(getResources().getString(R.string.google_news_key));
 
-//      (get bearer token and refresh token each time)
-//      curl -X POST -A "User agent" -d "grant_type=refresh_token&refresh_token=357005052207-WZj9af4XvdYWVM9RhnoRIzuM7YILZA" --user "UKAjETNsx7H55w:PpuXQt5YBhJrVlrqNcOHUSYv4-NV1Q" https://www.reddit.com/api/v1/access_token
-//      (call the subreddit and get "title" from "data")
-//      curl -H "Authorization: bearer 357005052207-apyzhZkRU0FIC7E2ZWbkrZ9V4pO-wA" -A "UKAjETNsx7H55w/0.1 by Saqiao" --get "https://oauth.reddit.com/r/news/top/.json?t=day&count=10"
-
-//        RequestQueue redditQueue = Volley.newRequestQueue(SearchActivity.this);
-//        JsonObjectRequest redditJsonRequest = new JsonObjectRequest(Request.Method.POST, "https://www.reddit.com/api/v1/access_token", null, response ->
-//        {
-//            JSONArray topics = null;
-//            JSONArray entities = null;
-//            try
-//            {
-//                JSONObject obj = new JSONObject(response.toString());
-//            }
-//            catch (JSONException e)
-//            {
-//                e.printStackTrace();
-//            }
-//        }, error ->
-//        {
-//            Log.d("ERROR","error => "+error.toString());
-//        })
-//        {
-//            //this is the part that adds the data for the post request
-//            @Override
-//            protected Map<String,String> getParams()
-//            {
-//                Map<String,String> params = new HashMap<String, String>();
-//                params.put("extractors", "entities,topics");
-//                params.put("text", articleHeadline);
-//
-//                return params;
-//            }
-//            //this is the part that adds the header to the request
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError
-//            {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("x-textrazor-key", getResources().getString(R.string.text_razor_key));
-//                return params;
-//            }
-//        };
-//
-//        redditQueue.add(redditJsonRequest);
-
-        //curl -X POST -H "x-textrazor-key: c6cb312b88076c6ccbdf122ee33b43281ed985497f72d6debfe76283"
-        // -d "extractors=entities,topics" -d "text=Spain's stricken Bankia expects to sell off its vast portfolio of industrial
-        //holdings that includes a stake in the parent company of British Airways and Iberia." https://api.textrazor.com
-
-        trendsEntities = new ArrayList<>();
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                try
-                {
-                    TextRazor client = new TextRazor(getResources().getString(R.string.text_razor_key));
-
-                    client.addExtractor("topics");
-                    client.addExtractor("entities");
-
-                    AnalyzedText response = null;
-
-                    try
+            newsApiClient.getTopHeadlines(
+                    new TopHeadlinesRequest.Builder()
+                            .q("news")
+                            .language("en")
+                            .pageSize(15)
+                            .build(),
+                    new NewsApiClient.ArticlesResponseCallback()
                     {
-                        response = client.analyze("LONDON what is the time Canada space BBC hip hop ballet");
-
-                        String tvText = "";
-
-                        try
+                        @Override
+                        public void onSuccess(ArticleResponse response)
                         {
-                            for(int i = 0; i < 20; i++)
+                            trendingHeadlines = "";
+
+                            for(int i = 0; i < 15; i++)
                             {
-                                Trend trend = new Trend();
-                                trend.setTitle(response.getResponse().getEntities().get(i).getEntityId());
-                                trendsEntities.add(trend);
-
-                                runOnUiThread(new Runnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        trendsRecyclerView1 = findViewById(R.id.trends_recycler_view);
-
-                                        trendsRecyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                                        adapter = new TrendsAdapter(SearchActivity.this, trendsEntities);
-                                        trendsRecyclerView1.setAdapter(adapter);
-                                    }
-                                });
+                                trendingHeadlines += (response.getArticles().get(i).getTitle() + " ");
                             }
+
+                            Log.i("STRING", trendingHeadlines);
+
+                            //curl -X POST -H "x-textrazor-key: KEY"
+                            // -d "extractors=entities,topics" -d "text=Spain's stricken Bankia expects to sell off its vast portfolio of industrial
+                            //holdings that includes a stake in the parent company of British Airways and Iberia." https://api.textrazor.com
+
+                            trendsEntities = new ArrayList<>();
+
+                            String finalTrendingHeadlines = trendingHeadlines;
+
+                            Log.i("trending headlines", finalTrendingHeadlines);
+
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run()
+                                {
+                                    try
+                                    {
+                                        TextRazor client = new TextRazor(getResources().getString(R.string.text_razor_key));
+
+                                        client.addExtractor("entities");
+
+                                        AnalyzedText response = null;
+
+                                        try
+                                        {
+                                            response = client.analyze(finalTrendingHeadlines);
+                                            String[] trendsList = new String[20];
+
+                                            try
+                                            {
+                                                for(int i = 0; i < 20; i++)
+                                                {
+                                                    Trend trend = new Trend();
+                                                    trendsList[i] = response.getResponse().getEntities().get(i).getEntityId();
+                                                    trend.setTitle(trendsList[i]);
+                                                    trendsEntities.add(trend);
+
+                                                    runOnUiThread(new Runnable()
+                                                    {
+                                                        @Override
+                                                        public void run()
+                                                        {
+                                                            trendsRecyclerView1 = findViewById(R.id.trends_recycler_view);
+
+                                                            trendsRecyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                                                            adapter = new TrendsAdapter(SearchActivity.this, trendsEntities);
+                                                            trendsRecyclerView1.setAdapter(adapter);
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            catch(IndexOutOfBoundsException | NullPointerException e)
+                                            {
+                                                Log.i("index out of bounds", "List emptied");
+                                            }
+                                        } catch (NetworkException | AnalysisException e)
+                                        {
+                                            e.printStackTrace();
+                                        }
+                                    } catch (Exception e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            thread.start();
                         }
-                        catch(IndexOutOfBoundsException | NullPointerException e)
+
+                        @Override
+                        public void onFailure(Throwable throwable)
                         {
-                            Log.i("index out of bounds", "List emptied");
+                            Log.i("news error", throwable.getMessage());
                         }
-
-//                        TextView tv = findViewById(R.id.textView3);
-//                        tv.setText(tvText);
-                    } catch (NetworkException | AnalysisException e)
-                    {
-                        e.printStackTrace();
                     }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
+            );
+        }
 
         speechButton = findViewById(R.id.speech_button);
         searchView = findViewById(R.id.search_view);
@@ -269,5 +280,98 @@ public class SearchActivity extends AppCompatActivity
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             searchView.setQuery(matches.get(0), true);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putString("stringResponse", trendingHeadlines);
+        outState.putInt("check", check);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        //does not call News API again when the orientation, language, or text size of the phone are changed
+        //(only have limited calls to News API)
+
+        super.onRestoreInstanceState(savedInstanceState);
+        trendingHeadlines = savedInstanceState.getString("stringResponse");
+
+        trendsEntities = new ArrayList<>();
+
+        Log.i("trending headlines", trendingHeadlines);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    TextRazor client = new TextRazor(getResources().getString(R.string.text_razor_key));
+
+                    client.addExtractor("entities");
+
+                    AnalyzedText response = null;
+
+                    try
+                    {
+                        response = client.analyze(trendingHeadlines);
+                        String[] trendsList = new String[20];
+
+                        try
+                        {
+                            for(int i = 0; i < 20; i++)
+                            {
+                                Trend trend = new Trend();
+                                trendsList[i] = response.getResponse().getEntities().get(i).getEntityId();
+
+                                int count = 0;
+
+                                for(int j = 0; j < trendsList.length; j++)
+                                {
+                                    if(trendsList[i].equals(trendsList[j]))
+                                    {
+                                        count++;
+                                    }
+                                }
+                                if(count == 1)
+                                {
+                                    trend.setTitle(trendsList[i]);
+                                    trendsEntities.add(trend);
+
+                                    runOnUiThread(new Runnable()
+                                    {
+                                        @Override
+                                        public void run()
+                                        {
+                                            trendsRecyclerView1 = findViewById(R.id.trends_recycler_view);
+
+                                            trendsRecyclerView1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                                            adapter = new TrendsAdapter(SearchActivity.this, trendsEntities);
+                                            trendsRecyclerView1.setAdapter(adapter);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        catch(IndexOutOfBoundsException | NullPointerException e)
+                        {
+                            Log.i("index out of bounds", "List emptied");
+                        }
+
+                    } catch (NetworkException | AnalysisException e)
+                    {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 }
