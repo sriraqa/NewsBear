@@ -46,11 +46,11 @@ public class SearchActivity extends AppCompatActivity
     ImageView settingButton;
 
     //variables for APIs
-    public static String maxNumOfClaims;
-    public static String language;
+    public static String maxNumOfClaims = "5";
+    public static String language = "&languageCode=en-US";
     private static final int RECOGNIZER_RESULT = 1;
 
-    //variables for trends
+    //variables for setting trends
     private List<Trend> trendsEntities;
     private TrendsAdapter adapter;
     private RecyclerView trendsRecyclerView1;
@@ -64,12 +64,99 @@ public class SearchActivity extends AppCompatActivity
 
         setTitle("NewsBear");
 
+        //gets random num for question
         int random = (int) (Math.random() * 4);
         String text;
-
         TextView questionTextView = findViewById(R.id.questionTextView);
 
         Intent doneIntent = getIntent();
+
+        //checks if settings were changed in SettingsActivity.java. If not, looks for previously set settings.
+        //If there were no previously set settings, goes to default
+        if(doneIntent.hasExtra("com.example.newsbear2.LANGUAGE")) //language setting
+        {
+            language = doneIntent.getStringExtra("com.example.newsbear2.LANGUAGE");
+            writeString(SearchActivity.this, "language", language);
+            writeString(SearchActivity.this, "check", "1");
+            Log.i("CHECK", "language first time" + language);
+        }
+        else
+        {
+            try
+            {
+                if(readString(SearchActivity.this, "check").equals("1"))
+                {
+                    language = readString(SearchActivity.this, "language");
+                    Log.i("CHECK", "language remembered" + language);
+                }
+                else
+                {
+                    writeString(SearchActivity.this, "language", "&languageCode=en-US");
+                    language = readString(SearchActivity.this, "language");
+                    Log.i("CHECK", "language default");
+                }
+            }
+            catch(Exception e)
+            {
+                writeString(SearchActivity.this, "language", "&languageCode=en-US");
+                language = readString(SearchActivity.this, "language");
+                Log.i("CHECK", "language default");
+            }
+        }
+        if(doneIntent.hasExtra("com.example.newsbear2.MAXNUM")) //max num of articles setting
+        {
+            maxNumOfClaims = doneIntent.getStringExtra("com.example.newsbear2.MAXNUM");
+            writeString(SearchActivity.this, "maxNum", maxNumOfClaims);
+            writeString(SearchActivity.this, "check", "1");
+            Log.i("CHECK", "max num first time" + maxNumOfClaims);
+        }
+        else
+        {
+            try
+            {
+                if(readString(SearchActivity.this, "check").equals("1"))
+                {
+                    maxNumOfClaims = readString(SearchActivity.this, "maxNum");
+                    Log.i("CHECK", "max num remembered" + maxNumOfClaims);
+                }
+                else
+                {
+                    writeString(SearchActivity.this, "maxNum", "5");
+                    maxNumOfClaims = readString(SearchActivity.this, "maxNum");
+                    Log.i("CHECK", "max num default");
+                }
+            }
+            catch(Exception e)
+            {
+                writeString(SearchActivity.this, "maxNum", "5");
+                maxNumOfClaims = readString(SearchActivity.this, "maxNum");
+                Log.i("CHECK", "max num default");
+            }
+        }
+
+        //checks if query was received from TrendsAdapter.java
+        if(doneIntent.hasExtra("com.example.newsbear2.QUERY"))
+        {
+            String trendingQuery = doneIntent.getStringExtra("com.example.newsbear2.QUERY");
+
+            //makes sure that query does not have & or # since it causes error
+            while(trendingQuery.contains("&"))
+            {
+                trendingQuery = trendingQuery.substring(0, trendingQuery.indexOf("&")) + " " + trendingQuery.substring(trendingQuery.indexOf("&") + 1);
+            }
+            while(trendingQuery.contains("#"))
+            {
+                trendingQuery = trendingQuery.substring(0, trendingQuery.indexOf("#")) + " " + trendingQuery.substring(trendingQuery.indexOf("#") + 1);
+            }
+
+            trendingQuery += language; //adds language to query so API call is correct
+
+            Intent searchIntent = new Intent(SearchActivity.this, GoogleFactCheckResponse.class); //go to results
+            searchIntent.putExtra("com.example.newsbear2.QUERY", trendingQuery);
+            searchIntent.putExtra("com.example.newsbear2.MAX_NUM", maxNumOfClaims);
+
+            SearchActivity.this.startActivity(searchIntent);
+        }
 
         //displays random question
         if(random == 0)
@@ -250,7 +337,6 @@ public class SearchActivity extends AppCompatActivity
 
                         thread.start();
                     }
-
                     @Override
                     public void onFailure(Throwable throwable)
                     {
@@ -347,6 +433,7 @@ public class SearchActivity extends AppCompatActivity
             thread.start();
         }
 
+        //linking to xml file
         speechButton = findViewById(R.id.speech_button);
         searchView = findViewById(R.id.search_view);
 
@@ -383,72 +470,6 @@ public class SearchActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                if(doneIntent.hasExtra("com.example.newsbear2.LANGUAGE"))
-                {
-                    language = doneIntent.getStringExtra("com.example.newsbear2.LANGUAGE");
-                    writeString(SearchActivity.this, "language", language);
-                    writeString(SearchActivity.this, "check", "1");
-                    Log.i("CHECK", "language first time" + language);
-                }
-                else
-                {
-                    try
-                    {
-                        if(readString(SearchActivity.this, "check").equals("1"))
-                        {
-                            language = readString(SearchActivity.this, "language");
-                            Log.i("CHECK", "language remembered" + language);
-                        }
-                        else
-                        {
-                            writeString(SearchActivity.this, "language", "&languageCode=en-US");
-                            language = readString(SearchActivity.this, "language");
-                            Log.i("CHECK", "language default");
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        writeString(SearchActivity.this, "language", "&languageCode=en-US");
-                        language = readString(SearchActivity.this, "language");
-                        Log.i("CHECK", "language default");
-                    }
-                }
-                if(doneIntent.hasExtra("com.example.newsbear2.MAXNUM"))
-                {
-                    maxNumOfClaims = doneIntent.getStringExtra("com.example.newsbear2.MAXNUM");
-                    writeString(SearchActivity.this, "maxNum", maxNumOfClaims);
-                    writeString(SearchActivity.this, "check", "1");
-                    Log.i("CHECK", "max num first time" + maxNumOfClaims);
-                }
-                else
-                {
-                    try
-                    {
-                        if(readString(SearchActivity.this, "check").equals("1"))
-                        {
-                            maxNumOfClaims = readString(SearchActivity.this, "maxNum");
-                            Log.i("CHECK", "max num remembered" + maxNumOfClaims);
-                        }
-                        else
-                        {
-                            writeString(SearchActivity.this, "maxNum", "5");
-                            maxNumOfClaims = readString(SearchActivity.this, "maxNum");
-                            Log.i("CHECK", "max num default");
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        writeString(SearchActivity.this, "maxNum", "5");
-                        maxNumOfClaims = readString(SearchActivity.this, "maxNum");
-                        Log.i("CHECK", "max num default");
-                    }
-                }
-
-                if(doneIntent.hasExtra("com.example.newsbear2.QUERY"))
-                {
-                    query = doneIntent.getStringExtra("com.example.newsbear2.QUERY");
-                }
-
                 while(query.contains("&")) //makes sure that query does not have & or # since it causes error
                 {
                     query = query.substring(0, query.indexOf("&")) + " " + query.substring(query.indexOf("&") + 1);

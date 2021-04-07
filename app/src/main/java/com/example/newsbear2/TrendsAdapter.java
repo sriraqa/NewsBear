@@ -27,18 +27,13 @@ import java.util.List;
 
 public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder>
 {
+    //adapter variables needed to change contents of recycler view
     private Context context;
     private LayoutInflater inflater;
     private List<Trend> trends;
-    private String newsEmoji = "\uD83D\uDCF0";
-    private String clipEmoji = "\uD83D\uDCCE";
-    private String faceEmoji = "\uD83D\uDE36";
-    private String calendarEmoji = "\uD83D\uDCC5";
 
-
-    public TrendsAdapter(Context parentContext, List<Trend> trends)
+    public TrendsAdapter(Context parentContext, List<Trend> trends) //gets contents from GoogleFactCheckResponse.class
     {
-        Log.i("Checkpoint", "trends adapter checkpoint");
         context = parentContext;
         this.inflater = LayoutInflater.from(context);
         this.trends = trends;
@@ -46,14 +41,14 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) //inflates the view
     {
         View view = inflater.inflate(R.layout.custom_trend_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrendsAdapter.ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull TrendsAdapter.ViewHolder holder, int position) //binds views to items in trends
     {
         holder.suggestion.setText(trends.get(position).getTitle());
 
@@ -71,7 +66,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount()
+    public int getItemCount() //returns the number of items
     {
         int count;
         if(trends != null && !trends.isEmpty())
@@ -85,12 +80,12 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
         return count;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder //holds views from xml so that they can be bound
     {
         TextView suggestion;
         ImageView imageView;
 
-        public ViewHolder(/*@NonNull*/ View itemView)
+        public ViewHolder(View itemView)
         {
             super(itemView);
 

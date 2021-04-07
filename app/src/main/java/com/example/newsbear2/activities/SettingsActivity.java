@@ -2,9 +2,7 @@ package com.example.newsbear2.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,20 +16,19 @@ import com.example.newsbear2.R;
 
 public class SettingsActivity extends AppCompatActivity
 {
+    //defaults values for language and max number of articles per search
     String language = "&languageCode=en-US";
     String maxNum = "5";
-
-    public Context context = SettingsActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_language);
+        setContentView(R.layout.activity_settings);
         setTitle("Language");
 
         //set the subtitle
-        String subtitle = "Configure additional languages and number of article results. \n(NOTE: Configurations will be remembered until settings are opened again)";
+        String subtitle = "Configure language and number of article results. \nConfigurations will be remembered until settings are opened again";
         TextView tv = findViewById(R.id.textView6);
         tv.setText(subtitle);
 
@@ -41,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity
         //get the language spinner from the xml
         Spinner languageDropdown = findViewById(R.id.spinner1);
         //create a list of items for the spinner.
-        String[] items = new String[]{"English only", "English & French", "English & Spanish"};
+        String[] items = new String[]{"English", "French", "Spanish"};
         //create an adapter to describe how the items are displayed
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         languageDropdown.setAdapter(adapter);
@@ -50,19 +47,20 @@ public class SettingsActivity extends AppCompatActivity
         languageDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) //l = row id
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) //i = position, l = row id
             {
-                if(languageDropdown.getItemAtPosition(i).equals("English only"))
+                //checks which item is chosen and sets the value to language
+                if(languageDropdown.getItemAtPosition(i).equals("English"))
                 {
-                    language = "&languageCode=en-US";
+                    language = "&languageCode=en-US"; //in the form of API call parameter so it can be added on later
                 }
-                else if(languageDropdown.getItemAtPosition(i).equals("English & French"))
+                else if(languageDropdown.getItemAtPosition(i).equals("French"))
                 {
                     language = "&languageCode=fr-FR";
                 }
-                else if(languageDropdown.getItemAtPosition(i).equals("English & Spanish"))
+                else if(languageDropdown.getItemAtPosition(i).equals("Spanish"))
                 {
-                    language = "&languageCode=es";
+                    language = "&languageCode=es-ES";
                 }
             }
 
@@ -82,9 +80,9 @@ public class SettingsActivity extends AppCompatActivity
         numDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) //l = row id
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) //i = position, l = row id
             {
-                if(numDropdown.getItemAtPosition(i).equals("5"))
+                if(numDropdown.getItemAtPosition(i).equals("5")) //checks which item is chosen and sets value to maxNum
                 {
                     maxNum = "5";
                 }
@@ -108,6 +106,7 @@ public class SettingsActivity extends AppCompatActivity
             }
         });
 
+        //button to confirm changes in settings
         Button doneButton = findViewById(R.id.doneButton);
 
         doneButton.setOnClickListener(new View.OnClickListener()
