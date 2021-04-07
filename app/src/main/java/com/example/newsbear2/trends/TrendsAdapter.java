@@ -1,27 +1,18 @@
-package com.example.newsbear2;
+package com.example.newsbear2.trends;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newsbear2.activities.GoogleFactCheckResponse;
+import com.example.newsbear2.R;
 import com.example.newsbear2.activities.SearchActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -32,7 +23,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
     private LayoutInflater inflater;
     private List<Trend> trends;
 
-    public TrendsAdapter(Context parentContext, List<Trend> trends) //gets contents from GoogleFactCheckResponse.class
+    public TrendsAdapter(Context parentContext, List<Trend> trends) //sets contents from SearchActivity.class
     {
         context = parentContext;
         this.inflater = LayoutInflater.from(context);

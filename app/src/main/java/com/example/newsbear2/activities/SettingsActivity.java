@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity
         setTitle("Language");
 
         //set the subtitle
-        String subtitle = "Configure language and number of article results. \nConfigurations will be remembered until settings are opened again";
+        String subtitle = "Configure your settings. \nNote that configurations will be remembered until settings are opened again";
         TextView tv = findViewById(R.id.textView6);
         tv.setText(subtitle);
 

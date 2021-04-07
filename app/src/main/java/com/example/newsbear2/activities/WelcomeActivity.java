@@ -20,33 +20,26 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         setTitle("Welcome");
 
+        //explanation of the app displayed on screen
         String description = "There can be hundreds of pieces of gossip that one person can encounter in a day. " +
                 "With that said, it is almost impossible to do a deep fact check on every single fact that you hear. " +
                 "So, NewsBear seeks to simplify this process by providing a simple search engine for fact checking news.";
-
-        String subtitle = "This app provides a simple way for young adults to fact check and easily find news!";
-
-        TextView subtitleView = findViewById(R.id.textView3);
-        subtitleView.setText(subtitle);
-
         TextView tv = findViewById(R.id.textView2);
         tv.setText(Html.fromHtml(description));
 
-//        Intent languageIntent = getIntent();
-        Button continueButton = findViewById(R.id.continueButton2);
+        //description of the app displayed on screen
+        String subtitle = "This app provides a simple way for young adults to fact check and easily find news!";
+        TextView subtitleView = findViewById(R.id.textView3);
+        subtitleView.setText(subtitle);
 
+        //button listens for click and continues to info screen
+        Button continueButton = findViewById(R.id.continueButton2);
         continueButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 Intent getStartedIntent = new Intent(WelcomeActivity.this, InfoActivity.class);
-//                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE"))
-//                {
-//                    String language = languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE");
-//                    getStartedIntent.putExtra("com.example.newsbear2.LANGUAGE2", language);
-//                }
-
                 startActivity(getStartedIntent);
             }
         });

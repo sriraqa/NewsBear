@@ -25,16 +25,19 @@ import java.util.List;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder>
 {
+    //variables used for adapting the claim
     private final Context context;
     private final LayoutInflater inflater;
     private final List<Claim> claims;
+
+    //emojis in unicode
     private String newsEmoji = "\uD83D\uDCF0";
     private String clipEmoji = "\uD83D\uDCCE";
     private String faceEmoji = "\uD83D\uDE36";
     private String paperEmoji = "\uD83D\uDCDD";
     private String calendarEmoji = "\uD83D\uDCC5";
 
-    public ClaimsAdapter(Context parentContext, List<Claim> claims)
+    public ClaimsAdapter(Context parentContext, List<Claim> claims) //sets contents from GoogleFactCheckResponse.class
     {
         context = parentContext;
         this.inflater = LayoutInflater.from(context);
@@ -43,15 +46,16 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) //inflate the view
     {
         View view = inflater.inflate(R.layout.custom_list_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) //binds the views to given values
     {
+        //setting size of layout that holds the image
         LinearLayout layout = holder.linearLayout;
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
         params.height = (int) claims.get(position).getImageHeight();
@@ -59,11 +63,12 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         Log.i("converted height", Float.toString(claims.get(position).getImageHeight()));
         Log.i("converted width", Float.toString(claims.get(position).getImageWidth()));
         layout.setLayoutParams(params);
-
+        //gets image URL and loads it into the image view
         String imageURL = claims.get(position).getImageURL();
         Log.i("CHECK", imageURL);
         Picasso.get().load(imageURL).into(holder.articleImage);
 
+        //checks the flag at the beginning and sets crying or happy emoji (otherwise neutral emoji face)
         if(claims.get(position).getRatingDescription().startsWith("f"))
         {
             faceEmoji = "\uD83D\uDE2D ";
@@ -77,19 +82,18 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
 
         //bind the data
         holder.claimTitle.setText(claims.get(position).getTitle());
-        //holder.website.setText(claims.get(position).getWebsite());
         holder.ratingDescription.setText(Html.fromHtml(claims.get(position).getRatingDescription()));
         holder.description.setText(claims.get(position).getDescription());
         holder.claimDate.setText(claims.get(position).getClaimDate());
-
+        //set emojis
         holder.titleEmoji.setText(clipEmoji);
         holder.ratingEmoji.setText(faceEmoji);
         holder.descriptionEmoji.setText(paperEmoji);
         holder.dateEmoji.setText(calendarEmoji);
 
+        //listens for full article button to be clicked and leads to website in browser
         String fullArticleText = newsEmoji + " Read the full article";
         holder.fullArticleButton.setText(fullArticleText);
-
         holder.fullArticleButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -101,16 +105,18 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             }
         });
 
+        //listens for share button to be clicked and gives options to the user of other apps
         holder.share.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                //text displayed when shared
                 shareIntent.putExtra(Intent.EXTRA_TEXT,  claims.get(position).getRatingDescription().substring(0, claims.get(position).getRatingDescription().indexOf("<"))  +
                         claims.get(position).getRatingDescription().substring(claims.get(position).getRatingDescription().indexOf(">") + 1,
                                 claims.get(position).getRatingDescription().indexOf("<", claims.get(position).getRatingDescription().indexOf(">"))) +
-                        "\":\n" + claims.get(position).getWebsite() + "\n\nI found this fact checked article by using \"NewsBear\" on Android!");
+                        "\": " + claims.get(position).getWebsite() + "\n\nFind more of these fact checked articles by using \"NewsBear\" on Android!");
                 shareIntent.setType("text/plain");
                 context.startActivity(Intent.createChooser(shareIntent, "Send To"));
             }
@@ -118,12 +124,22 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount()
+    public int getItemCount() //returns number of claims
     {
-        return claims.size();
+        int count;
+        if(claims != null && !claims.isEmpty())
+        {
+            count= claims.size();
+        }
+        else
+        {
+            count = 0;
+        }
+        return count;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+
+    public class ViewHolder extends RecyclerView.ViewHolder //holds views from xml so that they can be bound
     {
         TextView claimTitle, ratingDescription, description, claimDate, titleEmoji, ratingEmoji, descriptionEmoji, dateEmoji;
         ImageView articleImage;
@@ -136,7 +152,6 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             super(itemView);
 
             claimTitle = itemView.findViewById(R.id.claim_title);
-            //website = itemView.findViewById(R.id.claim_url);
             ratingDescription = itemView.findViewById(R.id.textual_rating);
             description = itemView.findViewById(R.id.claim_description);
             claimDate = itemView.findViewById(R.id.claim_date);

@@ -19,32 +19,24 @@ public class GetStartedActivity extends AppCompatActivity
         setContentView(R.layout.activity_get_started);
         setTitle("Get Started");
 
+        //emojis and text used to show features
         String newsEmoji = "\uD83D\uDCF0";
         String shareEmoji = "\uD83D\uDCAC";
         String faceEmoji = "\uD83D\uDE36";
-
         TextView featureText = findViewById(R.id.featuresTextView);
-
         String text = faceEmoji + " Check the face emoji for the rating!" +
                 "\n" + newsEmoji + " Open the article in your browser!" +
                 "\n" + shareEmoji + " Click on the speech bubble to share!";
-
         featureText.setText(text);
 
+        //listens for click on get started button and passes to the main search activity
         Button getStartedButton = findViewById(R.id.getStartedButton);
-
-        //listens for click on get started button and passes the language
         getStartedButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 Intent getStartedIntent = new Intent(GetStartedActivity.this, SearchActivity.class);
-//                if (languageIntent.hasExtra("com.example.newsbear2.LANGUAGE2"))
-//                {
-//                    String language = languageIntent.getStringExtra("com.example.newsbear2.LANGUAGE2");
-//                    getStartedIntent.putExtra("com.example.newsbear2.LANGUAGE3", language);
-//                }
                 startActivity(getStartedIntent);
             }
         });

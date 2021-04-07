@@ -1,9 +1,8 @@
 package com.example.newsbear2.claims;
 
-import java.util.List;
-
 public class Claim
 {
+    //list of variables that will be changed for each item (set and get for each one)
     private String title;
     private String ratingDescription;
     private String website;
@@ -12,18 +11,9 @@ public class Claim
     private String imageURL;
     private float imageWidth;
     private float imageHeight;
-//    private String[] reviewsArray;
 
-    //ClaimReview claimReview = new ClaimReview();
+    //object claim
     public Claim() {}
-//    public Claim(String title, String claimant, String claimDate, String[] reviewsArray)
-//    {
-//        this.title = title;
-//        this.website = website;
-//        this.ratingDescription = ratingDescription;
-//        this.description = description;
-//        this.reviewsArray = reviewsArray;
-//    }
 
     public String getTitle()
     {
@@ -90,22 +80,4 @@ public class Claim
     {
         this.imageWidth = imageWidth;
     }
-    //    public String[] getReviewsArray()
-//    {
-//        return reviewsArray;
-//    }
-
-//    public void setReviewsList(List<ClaimReview> reviewsList)
-//    {
-//        this.reviewsArray = reviewsArray;
-//    }
-
-//    public String getUrl()
-//    {
-//        return claimReview.getUrl();
-//    }
-//    public String getTextualRating()
-//    {
-//        return claimReview.getTextualRating();
-//    }
 }

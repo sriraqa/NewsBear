@@ -28,8 +28,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.newsbear2.Trend;
-import com.example.newsbear2.TrendsAdapter;
+import com.example.newsbear2.trends.Trend;
+import com.example.newsbear2.trends.TrendsAdapter;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.request.TopHeadlinesRequest;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
