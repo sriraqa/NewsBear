@@ -33,8 +33,6 @@ public class GetStartedActivity extends AppCompatActivity
 
         Button getStartedButton = findViewById(R.id.getStartedButton);
 
-        Intent languageIntent = getIntent();
-
         //listens for click on get started button and passes the language
         getStartedButton.setOnClickListener(new View.OnClickListener()
         {

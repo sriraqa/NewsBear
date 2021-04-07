@@ -11,106 +11,79 @@
         android:layout_width="313dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/comfortaa"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/darker_main_blue"
+        app:layout_constraintBottom_toTopOf="@+id/spinner1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:text="FInd articles in other languages!" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="166dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spanishButton"
-        app:layout_constraintVertical_bias="0.843"
-        app:srcCompat="@drawable/page2" />
-
-    <Button
-        android:id="@+id/englishButton"
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_button_shape"
-        android:fontFamily="@font/comfortaa_bold"
-        android:text="English only"
-        android:textColor="@color/darker_main_blue"
-        android:textSize="16sp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/frenchButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <Button
-        android:id="@+id/frenchButton"
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_button_shape"
-        android:fontFamily="@font/comfortaa_bold"
-        android:text="French"
-        android:textColor="@color/darker_main_blue"
-        android:textSize="16sp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/spanishButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/englishButton" />
-
-    <Button
-        android:id="@+id/spanishButton"
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/custom_button_shape"
-        android:fontFamily="@font/comfortaa_bold"
-        android:text="Spanish"
-        android:textColor="@color/darker_main_blue"
-        android:textSize="16sp"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frenchButton" />
+        tools:text="Configure additional languages and number of article results" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="369dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/comfortaa_bold"
-        android:text="Choose additional languages"
+        android:text="Settings"
         android:textAlignment="center"
         android:textColor="@color/darker_main_blue"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="244dp"
-        android:layout_height="242dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="80dp"
-        app:layout_constraintBottom_toTopOf="@+id/englishButton"
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/choose_language"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/spinner2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:srcCompat="@drawable/language_screen" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/choose_language"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/doneButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="145dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="133dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="133dp"
+        android:layout_marginBottom="60dp"
+        android:background="@color/darker_main_blue"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:textColor="@color/off_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

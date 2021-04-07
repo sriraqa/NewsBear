@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setTitle("NewsBear");
 
+        //displays splash screen for 3 seconds
         new Handler().postDelayed(() ->
         {
             //only displays the welcome the first time user opens the app
@@ -43,13 +44,18 @@ public class MainActivity extends AppCompatActivity
             finish();
         }, SPLASH_TIME_OUT);
     }
-    public static void writeString(Context context, final String KEY, String property) {
+
+    //stores String in app storage
+    public static void writeString(Context context, final String KEY, String property)
+    {
         SharedPreferences.Editor editor = context.getSharedPreferences("Start Welcome", context.MODE_PRIVATE).edit();
         editor.putString(KEY, property);
         editor.apply();
     }
 
-    public static String readString(Context context, final String KEY) {
+    //reads String from app storage
+    public static String readString(Context context, final String KEY)
+    {
         return context.getSharedPreferences("Start Welcome", context.MODE_PRIVATE).getString(KEY, null);
     }
 }

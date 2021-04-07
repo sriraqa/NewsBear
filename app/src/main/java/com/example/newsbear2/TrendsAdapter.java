@@ -62,7 +62,7 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.ViewHolder
             @Override
             public void onClick(View v)
             {
-                Intent searchIntent = new Intent(context, GoogleFactCheckResponse.class);
+                Intent searchIntent = new Intent(context, SearchActivity.class);
                 searchIntent.putExtra("com.example.newsbear2.QUERY", trends.get(position).getTitle());
 
                 context.startActivity(searchIntent);

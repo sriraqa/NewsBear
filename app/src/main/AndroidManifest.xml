@@ -58,7 +58,7 @@
         </activity>
 
         <activity
-            android:name=".activities.LanguageActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_language"
             android:theme="@style/Theme.NewsBear2.NoActionBar">
         </activity>

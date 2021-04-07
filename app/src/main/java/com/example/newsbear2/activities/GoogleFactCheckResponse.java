@@ -41,7 +41,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
     public static String query = "";
     private static String GOOGLE_FACT_API_URL;
     private static String GOOGLE_IMAGE_API_URL;
-    public static int maxNumOfClaims;
+    public static String maxNumOfClaims;
     private List<Claim> claims;
     private ClaimsAdapter adapter;
     private RecyclerView claimsRecyclerView;
@@ -70,7 +70,7 @@ public class GoogleFactCheckResponse extends AppCompatActivity
         if (searchIntent.hasExtra("com.example.newsbear2.QUERY"))
         {
             query = searchIntent.getStringExtra("com.example.newsbear2.QUERY");
-            maxNumOfClaims = searchIntent.getIntExtra("com.example.newsbear2.MAX_NUM", 10);
+            maxNumOfClaims = searchIntent.getStringExtra("com.example.newsbear2.MAX_NUM");
         }
         else
         {
