@@ -327,14 +327,16 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                     adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
                                     claimsRecyclerView.setAdapter(adapter);
 
+                                    numOfResults = adapter.getItemCount();
+
                                     String text;
                                     try
                                     {
-                                        text = "Showing no results for " + "\"" + query.substring(0, query.indexOf("&lang")) + "\"";
+                                        text = "Showing " + numOfResults + " results for " + "\"" + query.substring(0, query.indexOf("&lang")) + "\"";
                                     }
                                     catch(IndexOutOfBoundsException e)
                                     {
-                                        text = "Showing no results for " + "\"" + query + "\"";
+                                        text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
                                     }
                                     setTitle(text);
                                 }
@@ -359,14 +361,16 @@ public class GoogleFactCheckResponse extends AppCompatActivity
                                     adapter = new ClaimsAdapter(GoogleFactCheckResponse.this, claims);
                                     claimsRecyclerView.setAdapter(adapter);
 
+                                    numOfResults = adapter.getItemCount();
+                                    
                                     String text;
                                     try
                                     {
-                                        text = "Showing no results for " + "\"" + query.substring(0, query.indexOf("&lang")) + "\"";
+                                        text = "Showing " + numOfResults + " results for " + "\"" + query.substring(0, query.indexOf("&lang")) + "\"";
                                     }
                                     catch(IndexOutOfBoundsException e)
                                     {
-                                        text = "Showing no results for " + "\"" + query + "\"";
+                                        text = "Showing " + numOfResults + " results for " + "\"" + query + "\"";
                                     }
                                     setTitle(text);
                                 }

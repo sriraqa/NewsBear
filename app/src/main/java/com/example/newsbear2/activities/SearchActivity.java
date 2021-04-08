@@ -506,6 +506,8 @@ public class SearchActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent settingIntent = new Intent(SearchActivity.this, SettingsActivity.class);
+                settingIntent.putExtra("com.example.newsbear2.SET_LANGUAGE", language);
+                settingIntent.putExtra("com.example.newsbear2.SET_MAX_NUM", maxNumOfClaims);
                 SearchActivity.this.startActivity(settingIntent);
             }
         });

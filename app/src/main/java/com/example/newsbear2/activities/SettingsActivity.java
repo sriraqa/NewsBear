@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity
         setTitle("Language");
 
         //set the subtitle
-        String subtitle = "Configure your settings. \nNote that configurations will be remembered until settings are opened again";
+        String subtitle = "Configure your settings.";
         TextView tv = findViewById(R.id.textView6);
         tv.setText(subtitle);
 
@@ -42,6 +42,53 @@ public class SettingsActivity extends AppCompatActivity
         //create an adapter to describe how the items are displayed
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         languageDropdown.setAdapter(adapter);
+
+        //max num spinner (same as above)
+        Spinner numDropdown = findViewById(R.id.spinner2);
+        String[] items2 = new String[]{"5", "10", "20", "30"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
+        numDropdown.setAdapter(adapter2);
+
+        Intent searchIntent = getIntent();
+
+        if(searchIntent.hasExtra("com.example.newsbear2.SET_LANGUAGE")) //gets previous language setting change
+        {
+            //sets spinner to display as the previous setting
+            language = searchIntent.getStringExtra("com.example.newsbear2.SET_LANGUAGE");
+            if(language.equals("&languageCode=es-ES"))
+            {
+                languageDropdown.setSelection(2);
+            }
+            else if(language.equals("&languageCode=fr-FR"))
+            {
+                languageDropdown.setSelection(1);
+            }
+            else
+            {
+                languageDropdown.setSelection(0);
+            }
+        }
+        if(searchIntent.hasExtra("com.example.newsbear2.SET_MAX_NUM")) //gets previous max num setting change
+        {
+            //sets spinner to display as the previous setting
+            maxNum = searchIntent.getStringExtra("com.example.newsbear2.SET_MAX_NUM");
+            if(maxNum.equals("30"))
+            {
+                numDropdown.setSelection(3);
+            }
+            else if(maxNum.equals("20"))
+            {
+                numDropdown.setSelection(2);
+            }
+            else if(maxNum.equals("10"))
+            {
+                numDropdown.setSelection(1);
+            }
+            else
+            {
+                numDropdown.setSelection(0);
+            }
+        }
 
         //when the item is selected, add that value as extra
         languageDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -65,17 +112,9 @@ public class SettingsActivity extends AppCompatActivity
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) //default value
-            {
-                language = "&languageCode=en-US";
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) //previous value
+            { }
         });
-
-        //max num spinner (same as above)
-        Spinner numDropdown = findViewById(R.id.spinner2);
-        String[] items2 = new String[]{"5", "10", "20", "30"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
-        numDropdown.setAdapter(adapter2);
 
         numDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -100,10 +139,8 @@ public class SettingsActivity extends AppCompatActivity
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) //default value
-            {
-                maxNum = "5";
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) //previous value
+            { }
         });
 
         //button to confirm changes in settings
