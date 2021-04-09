@@ -23,10 +23,13 @@ public class GetStartedActivity extends AppCompatActivity
         String newsEmoji = "\uD83D\uDCF0";
         String shareEmoji = "\uD83D\uDCAC";
         String faceEmoji = "\uD83D\uDE36";
+        String reportEmoji = "\uD83D\uDEA9";
+
         TextView featureText = findViewById(R.id.featuresTextView);
-        String text = faceEmoji + " Check the face emoji for the rating!" +
-                "\n" + newsEmoji + " Open the article in your browser!" +
-                "\n" + shareEmoji + " Click on the speech bubble to share!";
+        String text = faceEmoji + " Check the face emoji for the rating" +
+                "\n" + newsEmoji + " Open the article in your browser" +
+                "\n" + shareEmoji + " Click on the speech bubble to share" +
+                "\n" + reportEmoji + " Click on the red flag to report an article";
         featureText.setText(text);
 
         //listens for click on get started button and passes to the main search activity

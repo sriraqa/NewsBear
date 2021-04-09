@@ -59,9 +59,10 @@
 
     <TextView
         android:id="@+id/claim_title"
-        android:layout_width="340dp"
+        android:layout_width="299dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa_bold"
         android:text="TextView"
@@ -93,6 +94,21 @@
         app:layout_constraintTop_toBottomOf="@+id/claim_description"
         app:layout_constraintVertical_bias="0.183"
         app:srcCompat="@drawable/share_emoji" />
+
+    <ImageButton
+        android:id="@+id/report_button"
+        android:layout_width="63dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/textual_rating"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/claim_title"
+        app:srcCompat="@drawable/_f6a9" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

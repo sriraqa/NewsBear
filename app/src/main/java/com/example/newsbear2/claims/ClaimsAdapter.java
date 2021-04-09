@@ -1,5 +1,6 @@
 package com.example.newsbear2.claims;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -121,6 +123,31 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
                 context.startActivity(Intent.createChooser(shareIntent, "Send To"));
             }
         });
+
+        //listens for report button to be clicked and gives options to report to the NewsBear email
+        holder.report.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                //email recipient, subject, and body
+                String mailto = "mailto:newsbear2021@gmail.com" +
+                        "?cc=" +
+                        "&subject=" + Uri.encode("Reporting an Article from NewsBear") +
+                        "&body=" + Uri.encode("I would like to report an article with the title \"" + claims.get(position).getTitle()) + "\"" +
+                        "\n\n[Please explain the reason why you wish to report and try to be as specific as possible. Thank you for your feedback.]";
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse(mailto));
+                try //in case the user does not have an email app on their phone
+                {
+                    context.startActivity(emailIntent);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    Toast.makeText(context, "Error in opening email app", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -144,7 +171,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
         TextView claimTitle, ratingDescription, description, claimDate, titleEmoji, ratingEmoji, descriptionEmoji, dateEmoji;
         ImageView articleImage;
         Button fullArticleButton;
-        ImageButton share;
+        ImageButton share, report;
         LinearLayout linearLayout;
 
         public ViewHolder(/*@NonNull*/ View itemView)
@@ -158,6 +185,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ViewHolder
             articleImage = itemView.findViewById(R.id.claim_image);
             fullArticleButton = itemView.findViewById(R.id.full_article_button);
             share = itemView.findViewById(R.id.share_button);
+            report = itemView.findViewById(R.id.report_button);
             linearLayout = itemView.findViewById(R.id.linearLayout);
             titleEmoji = itemView.findViewById(R.id.titleEmoji);
             ratingEmoji = itemView.findViewById(R.id.ratingEmoji);
