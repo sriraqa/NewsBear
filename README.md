@@ -5,14 +5,17 @@ Android app created for the Technovation Girls Challenge.
 In the age of the Internet and social media, teenagers are especially susceptible to fall for fake and uncredited news. Whether the article is posted to convince the reader of a certain biased siding, or to shock them into sharing for publicity, propagated manipulation through these posts can negatively and unjustly affect a young person’s opinion and mental health. NewsBear is an easy-to-use Android app for teenagers that helps them find and share fact checked news articles.
 
 ## **App Features:** 
-- Keyword search for fact checked articles using the *Google Fact Check API*
-- Speech-to-text search
-- Suggestions given by using headlines from the *Google News API* and keywords extracted from the *TextRazor Keyword Extractor API*
-- Organized layout of results (displays article title, review, date, and description)
-- Sharing with other communication apps on the device
-- Button that opens the full fact checked article in device's browser
-- Language and number of articles per search settings
-- First time users will see an introduction to the app
+- Welcome and introduction walks first time users through the different aspects of the app, while also informing them of the app's mission.
+- Search bar and speech-to-text search for keywords to find fact checked articles through *Google’s Fact Check API*.
+  - These articles are received from numerous fact checking webstes such as "Snopes" and "FullFact".
+- Suggested topics for the user based on keywords extracted from news headlines within the past 24 hours that they may be interested in searching. 
+  - News headlines are gathered from *Google’s News API*.
+  - Keywords are extracted using *TextRazor’s Keyword Extraction API*.
+- Organized display for results.
+  - Users may read any of the fact checked articles in their browser.
+  - Users may share the rating and article url to any communication platform.
+  - Users may send a report of a specific article to NewsBear.
+- Settings can be adjusted and retained for the language (English, French, or Spanish) and maximum number of results to be displayed (5, 10, 20, or 30). 
 
 ## Screenshots:
 ### **Main Screen**
